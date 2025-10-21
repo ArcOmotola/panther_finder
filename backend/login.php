@@ -1,7 +1,7 @@
 <?php
 session_start();
-require_once('../includes/config/path.php');
-require_once(ROOT_PATH . 'includes/function.php');
+require_once('../include/config/path.php');
+require_once(ROOT_PATH . 'include/function.php');
 $db = new Database();
 
 if (isset($_POST['submit'])) {
