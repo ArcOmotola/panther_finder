@@ -7,6 +7,13 @@ $db = new Database();
 $countries = 'SELECT name, id FROM countries';
 $result_countries = $db->fetchAll($countries);
 // var_dump($result_countries);
+
+if (isset($_GET['error'])) {
+    $error_message = $_GET['error'];
+}
+if (isset($_GET['success'])) {
+    $success_message = $_GET['success'];
+}
 ?>
 
 <body>
@@ -37,11 +44,36 @@ $result_countries = $db->fetchAll($countries);
                     <div class="col-lg-7">
                         <div class="wow fadeInUp" data-wow-delay="0.3s">
                             <p class="text-center mb-4">Please enter your detail here</p>
+                            <?php
+                            if (isset($error_message)) { ?>
+
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+
+                                    <strong>Error!</strong> <?= $error_message ?>
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            <?php } elseif (isset($success_message)) { ?>
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+
+                                    <strong>Success!</strong><?= $success_message ?>
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            <?php } else { ?>
+
+                                <p class="text-center mb-4">Please enter your detail here</p>
+
+
+                            <?php } ?>
+
                             <form action="backend/register.php" method="post">
                                 <div class="row g-3">
                                     <div class="col-md-6">
                                         <div class="form-floating">
-                                            <input type="name" class="form-control" id="name" name="full_name" placeholder="Enter your Full name" required>
+                                            <input type="text" class="form-control" id="name" name="name" placeholder="Enter your Full name" required>
                                             <label for="name">FullName</label>
                                         </div>
                                     </div>
@@ -66,7 +98,7 @@ $result_countries = $db->fetchAll($countries);
 
                                     <div class="col-md-6">
                                         <div class="form-floating">
-                                            <select name="country" id="country_id" class="form-control">
+                                            <select name="country" id="country" class="form-control">
                                                 <option value="">Select Country</option>
                                                 <?php foreach ($result_countries as $country) { ?> <option value="<?= $country['id'] ?>"><?= $country['name'] ?></option> <?php } ?>
                                             </select>
@@ -76,7 +108,7 @@ $result_countries = $db->fetchAll($countries);
                                     <div class="col-md-6">
                                         <div class="form-floating">
                                             <!-- <label for="name">Country</label> -->
-                                            <select name="state_id" id="state" class="form-control">
+                                            <select name="state" id="state" class="form-control">
                                                 <option value="">Select State</option>
                                             </select>
                                         </div>
@@ -87,9 +119,19 @@ $result_countries = $db->fetchAll($countries);
                                             <label for="password">Your Password</label>
                                         </div>
                                     </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <!-- <label for="name">Country</label> -->
+                                            <select name="role" id="role" class="form-control" required>
+                                                <option value="" disabled selected>Account Type</option>
+                                                <option value="finder">Finder</option>
+                                                <option value="loser">Looser</option>
+                                            </select>
+                                        </div>
+                                    </div>
 
                                     <div class="col-12">
-                                        <button class="btn btn-primary w-100 py-3" type="submit" name="submit">Login</button>
+                                        <button class="btn btn-primary w-100 py-3" type="submit" name="submit">Register</button>
                                     </div>
                                     <div class="col-12 text-center">
                                         <a class="btn btn-link" href="register.php">Don't have an account? Register Now</a>
@@ -121,7 +163,7 @@ $result_countries = $db->fetchAll($countries);
             $('#country').on('change', function() {
                 // alert('hello')
                 let country = $(this).find(":selected").val();
-                // console.log(country);
+                console.log(country);
                 if (country == "") {
                     alert('Please select a country')
                 } else {
