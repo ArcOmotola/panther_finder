@@ -3,6 +3,12 @@ require_once 'include/config/path.php';
 require_once ROOT_PATH . 'include/header.php';
 require_once ROOT_PATH . 'include/function.php';
 $db = new Database();
+if (isset($_GET['error'])) {
+    $error_message = $_GET['error'];
+}
+if (isset($_GET['success'])) {
+    $success_message = $_GET['success'];
+}
 ?>
 
 <body>
@@ -28,12 +34,37 @@ $db = new Database();
                 <div class="wow fadeInUp" data-wow-delay="0.1s">
                     <!-- <p class="section-title text-secondary justify-content-center"><span></span>Contact Us<span></span></p> -->
                     <h1 class="text-center mb-5">Login</h1>
+
                 </div>
                 <div class="row justify-content-center">
                     <div class="col-lg-7">
                         <div class="wow fadeInUp" data-wow-delay="0.3s">
                             <p class="text-center mb-4">Please enter your detail here</p>
-                            <form>
+                            <?php
+                            if (isset($error_message)) { ?>
+
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+
+                                    <strong>Error!</strong> <?= $error_message ?>
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            <?php } elseif (isset($success_message)) { ?>
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+
+                                    <strong>Success!</strong><?= $success_message ?>
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            <?php } else { ?>
+
+                                <h4>Login to your account !</h4>
+
+                            <?php } ?>
+
+                            <form action="backend/login.php" method="post">
                                 <div class="row g-3">
                                     <div class="col-md-6">
                                         <div class="form-floating">
