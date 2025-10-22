@@ -29,6 +29,7 @@ if (isset($_POST['submit'])) {
                 $_SESSION['id'] = $query['id'];
                 $_SESSION['name'] = $query['name'];
                 $_SESSION['email'] = $query['email'];
+                $_SESSION['role'] = $query['role'];
                 $_SESSION['last_login_time'] = time();
                 header("Location: ../index.php");
             } else {

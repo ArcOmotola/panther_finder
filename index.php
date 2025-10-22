@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once 'include/config/path.php';
 require_once ROOT_PATH . 'include/header.php';
 require_once ROOT_PATH . 'include/function.php';
