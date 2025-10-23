@@ -9,20 +9,20 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav mx-auto py-0">
-                <a href="/" class="nav-item nav-link active">Home</a>
+                <a href="index.php" class="nav-item nav-link active">Home</a>
                 <?php
-                if ($_SESSION['last_login_time']) { ?>
+                if (isset($_SESSION['last_login_time'])) { ?>
                     <a href="project.php" class="nav-item nav-link">My report</a>
-                    <a href="report.php" class="nav-item nav-link">Reports</a>
+                    <!-- <a href="report.php" class="nav-item nav-link">Reports</a> -->
                 <?php }
                 ?>
                 <!-- <a href="#" class="nav-item nav-link">Project</a> -->
-                <a href="team.php" class="nav-item nav-link">Our Team</a>
-                <a href="testimonial.php" class="nav-item nav-link">Testimonial</a>
-                <a href="contact.php" class="nav-item nav-link">Contact</a>
+                <a href="#" class="nav-item nav-link">Our Team</a>
+                <a href="#" class="nav-item nav-link">Testimonial</a>
+                <a href="#" class="nav-item nav-link">Contact</a>
             </div>
             <?php
-            if ($_SESSION['last_login_time']) { ?>
+            if (isset($_SESSION['last_login_time'])) { ?>
                 <a href="logout.php" class="btn rounded-pill py-2 px-4 ms-3 d-none d-lg-block">Logout</a>
 
             <?php } else { ?>
