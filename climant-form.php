@@ -39,12 +39,12 @@ if (isset($_GET['success'])) {
             <div class="container py-5 px-lg-5">
                 <div class="wow fadeInUp" data-wow-delay="0.1s">
                     <!-- <p class="section-title text-secondary justify-content-center"><span></span>Contact Us<span></span></p> -->
-                    <h1 class="text-center mb-5">Register</h1>
+                    <h1 class="text-center mb-5">Finder Item Information</h1>
                 </div>
                 <div class="row justify-content-center">
                     <div class="col-lg-7">
                         <div class="wow fadeInUp" data-wow-delay="0.3s">
-                            <p class="text-center mb-4">Please enter your detail here</p>
+                            <p class="text-center mb-4">Please enter item detail here</p>
                             <?php
                             if (isset($error_message)) { ?>
 
@@ -63,80 +63,65 @@ if (isset($_GET['success'])) {
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
-                            <?php } else { ?>
-
-                                <p class="text-center mb-4">Please enter your detail here</p>
-
-
                             <?php } ?>
+
 
                             <form action="backend/register.php" method="post">
                                 <div class="row g-3">
                                     <div class="col-md-6">
                                         <div class="form-floating">
                                             <input type="text" class="form-control" id="name" name="name" placeholder="Enter your Full name" required>
-                                            <label for="name">FullName</label>
+                                            <label for="name">Item Name</label>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="form-floating">
-                                            <input type="email" class="form-control" id="email" name="email" placeholder="Enter your Email" required>
-                                            <label for="name">Email</label>
-                                        </div>
-                                    </div>
+
                                     <div class="col-md-6">
                                         <div class="form-floating">
                                             <input type="text" class="form-control" id="address" name="address" placeholder="Enter your Address" required>
-                                            <label for="name">Address</label>
+                                            <label for="name">Location Address</label>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-floating">
                                             <input type="text" class="form-control" id="phone" name="phone" placeholder="Enter your Phone" required>
-                                            <label for="name">Phone</label>
+                                            <label for="name">Phone Number</label>
                                         </div>
                                     </div>
 
-                                    <div class="col-md-6">
-                                        <div class="form-floating">
-                                            <select name="country" id="country" class="form-control">
-                                                <option value="">Select Country</option>
-                                                <?php foreach ($result_countries as $country) { ?> <option value="<?= $country['id'] ?>"><?= $country['name'] ?></option> <?php } ?>
-                                            </select>
-                                        </div>
-                                    </div>
 
-                                    <div class="col-md-6">
-                                        <div class="form-floating">
-                                            <!-- <label for="name">Country</label> -->
-                                            <select name="state" id="state" class="form-control">
-                                                <option value="">Select State</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-floating">
-                                            <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
-                                            <label for="password">Your Password</label>
-                                        </div>
-                                    </div>
+
                                     <div class="col-md-6">
                                         <div class="form-floating">
                                             <!-- <label for="name">Country</label> -->
                                             <select name="role" id="role" class="form-control" required>
-                                                <option value="" disabled selected>Account Type</option>
+                                                <option value="">Account Type</option>
                                                 <option value="finder">Finder</option>
                                                 <option value="loser">Looser</option>
                                             </select>
                                         </div>
                                     </div>
 
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <!-- <label for="name">Country</label> -->
+                                            <select name="role" id="role" class="form-control" required>
+                                                <option value="">Visibility Status</option>
+                                                <option value="visible">Visible</option>
+                                                <option value="anonymous">Anonymous</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <textarea name="description" class="form-control" id=""></textarea>
+                                            <label for="name">Description About the Item </label>
+                                        </div>
+                                    </div>
                                     <div class="col-12">
-                                        <button class="btn btn-primary w-100 py-3" type="submit" name="submit">Register</button>
+                                        <button class="btn btn-primary w-100 py-3" type="submit" name="submit">Submit</button>
                                     </div>
-                                    <div class="col-12 text-center">
-                                        <a class="btn btn-link" href="register.php">Don't have an account? Register Now</a>
-                                    </div>
+
                                 </div>
                             </form>
                         </div>

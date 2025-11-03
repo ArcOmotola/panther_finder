@@ -133,7 +133,7 @@ class Database
             phone VARCHAR(255) NULL,
             category_id INT NOT NULL,
             color_id INT NOT NULL,            
-            role ENUM("pending", "logged", "delivered") DEFAULT "pending",
+            status ENUM("pending", "logged", "delivered") DEFAULT "pending",
             visibility ENUM("public", "private") DEFAULT "public",
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
