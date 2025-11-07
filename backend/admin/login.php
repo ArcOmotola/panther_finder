@@ -22,7 +22,7 @@ if (isset($_POST['submit'])) {
             //checking if password is correct
             if ($query['password'] != md5($password)) {
                 $error_message = "Invalid credentials,Kindly check.";
-                header("Location: admin/login.php?error=" . $error_message);
+                header("Location: ../../admin/login.php?error=" . $error_message);
                 exit;
             }
 
@@ -39,5 +39,5 @@ if (isset($_POST['submit'])) {
     }
 } else {
     $error_message = "method not allowed";
-    header("Location: admin/login.php?error=" . $error_message);
+    header("Location: ../../admin/login.php?error=" . $error_message);
 }

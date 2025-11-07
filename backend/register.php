@@ -1,6 +1,7 @@
 <?php
 require_once('../include/config/path.php');
 require_once(ROOT_PATH . 'include/function.php');
+require_once('email/index.php');
 
 $db = new Database();
 
@@ -45,6 +46,21 @@ if (isset($_POST['submit'])) {
                     $error_message = "Registration failed,Kindly check.";
                     header("Location: ../register.php?error=" . $error_message);
                 } else {
+
+                    $to = $email;
+                    // $verificationToken = bin2hex(random_bytes(16));
+                    $subject = "Welcome to Foster Care Reconnect!";
+                    // $verificationLink = $_SERVER['HTTP_ORIGIN'] . "/verify-email.php?token=" . $verificationToken;
+                    $body = "
+                    <p>Hello $full_name,</p>
+                    <p>Welcome to Pathfinder ! We're excited to have you on board.</p>
+                    // <p>To complete your registration, please verify your email address by clicking the link below:</p>
+                    <p>If you have any questions or need assistance, feel free to contact our support team at hello@pantherfinder.com</p>
+                    <p>Best regards,</p>
+                    <p>Panther Finder Team</p>
+                    ";
+                    generalEmailSender($subject, $to, $body, $full_name);
+
                     $success_message = "Registration successful";
                     header("Location: ../login.php?success=" . $success_message);
                 }

@@ -113,7 +113,7 @@ class Database
             country_id INT NOT NULL,
             state_id INT NOT NULL,
             city VARCHAR(255) NULL,
-            role ENUM("finder", "loser") DEFAULT "finder",
+            role ENUM("finder", "claimant") DEFAULT "finder",
             status BOOLEAN DEFAULT TRUE,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             FOREIGN KEY (country_id) REFERENCES countries(id) ON DELETE CASCADE,

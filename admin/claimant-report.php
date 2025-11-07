@@ -6,7 +6,9 @@
 	$db = new Database();
 
 	//items
-	$finder_reports = "SELECT * FROM finder_reports order by created_at";
+	$finder_reports =
+		"SELECT * FROM claimant_reports order by created_at
+		";
 	$result_finder_reports = $db->fetchAll($finder_reports);
 	?>
 
@@ -72,7 +74,7 @@
 														<td><?= $num ?></td>
 														<td>
 															<h2 class="table-avatar">
-																<a href="profile.html" class="avatar avatar-sm mr-2"><img class="avatar-img rounded-circle" src="assets/img/doctors/doctor-thumb-01.jpeg" alt="User Image"></a>
+																<a href="#" class="avatar avatar-sm mr-2"><img class="avatar-img rounded-circle" src="assets/img/doctors/doctor-thumb-01.jpeg" alt="User Image"></a>
 																<a href="#"><?= $items['user_id'] ?></a>
 															</h2>
 														</td>
