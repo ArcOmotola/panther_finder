@@ -11,9 +11,13 @@
             <div class="navbar-nav mx-auto py-0">
                 <a href="index.php" class="nav-item nav-link active">Home</a>
                 <?php
-                if (isset($_SESSION['last_login_time'])) { ?>
-                    <a href="project.php" class="nav-item nav-link">My report</a>
-                    <!-- <a href="report.php" class="nav-item nav-link">Reports</a> -->
+                if (isset($_SESSION['role'])) {
+                    if ($_SESSION['role'] == 'finder') {
+                        echo '<a href="project.php" class="nav-item nav-link">My Reports</a>';
+                    } else {
+                        echo '<a href="climant.php" class="nav-item nav-link">My Claims</a>';
+                    }
+                ?>
                 <?php }
                 ?>
                 <!-- <a href="#" class="nav-item nav-link">Project</a> -->

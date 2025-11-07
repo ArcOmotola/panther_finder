@@ -4,6 +4,18 @@ require_once 'include/config/path.php';
 require_once ROOT_PATH . 'include/header.php';
 require_once ROOT_PATH . 'include/function.php';
 $db = new Database();
+
+$user = isset($_SESSION['id']) ? $_SESSION['id'] : null;
+
+if (isset($_GET['error'])) {
+    $error_message = $_GET['error'];
+}
+if (isset($_GET['success'])) {
+    $success_message = $_GET['success'];
+}
+
+$projects = 'SELECT * FROM finder_reports WHERE user_id = :user_id ORDER BY created_at DESC';
+$result_projects = $db->fetchAll($projects, ['user_id' => $user]);
 ?>
 
 <body>
@@ -29,27 +41,36 @@ $db = new Database();
 
                 <div class="wow fadeInUp" data-wow-delay="0.1s">
                     <h4>Do you have find something?</h4>
-                    <a href="report.php" class="btn btn-primary" type="button">Report Lost Item</a>
+                    <a href="finder-form.php" class="btn btn-primary" type="button">Report Lost Item</a>
                     <p class="section-title text-secondary justify-content-center"><span></span>My Peports<span></span></p>
                     <h1 class="text-center mb-5">Recently Reported Items</h1>
                 </div>
 
                 <div class="row g-4 portfolio-container">
-                    <div class="col-lg-4 col-md-6 portfolio-item  wow fadeInUp" data-wow-delay="0.1s">
-                        <div class="rounded overflow-hidden">
-                            <div class="position-relative overflow-hidden">
-                                <img class="img-fluid w-100" src="img/portfolio-1.jpg" alt="">
-                                <div class="portfolio-overlay">
-                                    <a class="btn btn-square btn-outline-light mx-1" href="assets/img/portfolio-1.jpg" data-lightbox="portfolio"><i class="fa fa-eye"></i></a>
-                                    <a class="btn btn-square btn-outline-light mx-1" href=""><i class="fa fa-link"></i></a>
+                    <?php if (empty($result_projects)) {
+                        echo "No Data";
+                    } else {
+                        foreach ($result_projects as $project) { ?>
+                            <div class="col-lg-4 col-md-6 portfolio-item  wow fadeInUp" data-wow-delay="0.1s">
+                                <div class="rounded overflow-hidden">
+                                    <div class="position-relative overflow-hidden">
+                                        <img class="img-fluid w-100" src="img/portfolio-1.jpg" alt="">
+                                        <div class="portfolio-overlay">
+                                            <a class="btn btn-square btn-outline-light mx-1" href="assets/img/portfolio-1.jpg" data-lightbox="portfolio"><i class="fa fa-eye"></i></a>
+                                            <a class="btn btn-square btn-outline-light mx-1" href=""><i class="fa fa-link"></i></a>
+                                        </div>
+                                    </div>
+                                    <div class="bg-light p-4">
+                                        <p class="text-primary fw-medium mb-2"><?= $project['title'] ?></p>
+                                        <h5 class="lh-base mb-0"><?= $project['description'] ?></a>
+                                        </h5>
+                                        <a type="button" class="btn btn-warning" href="finder-form.php?id=<?= $project['id'] ?>"><?= $project['status'] ?></a>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="bg-light p-4">
-                                <p class="text-primary fw-medium mb-2">Iphone 7 Plus Found</p>
-                                <h5 class="lh-base mb-0">Iphone 7 Plus Found at the location of 123, 456, New York, USA</a>
-                            </div>
-                        </div>
-                    </div>
+                        <?php } ?>
+                    <?php } ?>
+
                 </div>
             </div>
         </div>

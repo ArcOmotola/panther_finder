@@ -13,7 +13,7 @@ if (isset($_POST['submit'])) {
         $error_message = "Required field can not be empty";
     } else {
         //check if email exists
-        $sql = "SELECT id,email,name, password FROM users WHERE email = :email";
+        $sql = "SELECT id,email,name, role, password FROM users WHERE email = :email";
         $query = $db->fetch($sql, ['email' => $email]);
         if (empty($query)) {
             $error_message = "User does not exist, Please register.";

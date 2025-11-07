@@ -15,6 +15,12 @@ if (isset($_GET['error'])) {
 if (isset($_GET['success'])) {
     $success_message = $_GET['success'];
 }
+
+$colors = 'SELECT name, id FROM colors';
+$result_colors = $db->fetchAll($colors);
+
+$categories = 'SELECT name, id FROM categories';
+$result_categories = $db->fetchAll($categories);
 ?>
 
 <body>
@@ -39,12 +45,12 @@ if (isset($_GET['success'])) {
             <div class="container py-5 px-lg-5">
                 <div class="wow fadeInUp" data-wow-delay="0.1s">
                     <!-- <p class="section-title text-secondary justify-content-center"><span></span>Contact Us<span></span></p> -->
-                    <h1 class="text-center mb-5">Register</h1>
+                    <h1 class="text-center mb-5">Climant Item Information</h1>
                 </div>
                 <div class="row justify-content-center">
                     <div class="col-lg-7">
                         <div class="wow fadeInUp" data-wow-delay="0.3s">
-                            <p class="text-center mb-4">Please enter your detail here</p>
+                            <p class="text-center mb-4">Please enter item detail here</p>
                             <?php
                             if (isset($error_message)) { ?>
 
@@ -63,80 +69,80 @@ if (isset($_GET['success'])) {
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
-                            <?php } else { ?>
-
-                                <p class="text-center mb-4">Please enter your detail here</p>
-
-
                             <?php } ?>
 
-                            <form action="backend/register.php" method="post">
+
+                            <form action="backend/clamint-form.php" method="post" enctype="multipart/form-data">
                                 <div class="row g-3">
                                     <div class="col-md-6">
                                         <div class="form-floating">
-                                            <input type="text" class="form-control" id="name" name="name" placeholder="Enter your Full name" required>
-                                            <label for="name">FullName</label>
+                                            <select name="category_id" id="category_id" class="form-control">
+                                                <option value="">Item Category</option>
+                                                <?php foreach ($result_categories as $categories) { ?> <option value="<?= $categories['id'] ?>"><?= $categories['name'] ?></option> <?php } ?>
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-floating">
-                                            <input type="email" class="form-control" id="email" name="email" placeholder="Enter your Email" required>
-                                            <label for="name">Email</label>
+                                            <select name="color_id" id="color_id" class="form-control">
+                                                <option value="">Color</option>
+                                                <?php foreach ($result_colors as $colors) { ?> <option value="<?= $colors['id'] ?>"><?= $colors['name'] ?></option> <?php } ?>
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-floating">
-                                            <input type="text" class="form-control" id="address" name="address" placeholder="Enter your Address" required>
-                                            <label for="name">Address</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-floating">
-                                            <input type="text" class="form-control" id="phone" name="phone" placeholder="Enter your Phone" required>
-                                            <label for="name">Phone</label>
+                                            <input type="text" class="form-control" id="name" name="item_name" placeholder="Enter your Full name" required>
+                                            <label for="name">Item Name</label>
                                         </div>
                                     </div>
 
                                     <div class="col-md-6">
                                         <div class="form-floating">
-                                            <select name="country" id="country" class="form-control">
-                                                <option value="">Select Country</option>
-                                                <?php foreach ($result_countries as $country) { ?> <option value="<?= $country['id'] ?>"><?= $country['name'] ?></option> <?php } ?>
-                                            </select>
+                                            <input type="text" class="form-control" id="address" name="item_address" placeholder="Enter your Address" required>
+                                            <label for="name">Location Address</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control" id="phone" name="item_phone" placeholder="Enter your Phone" required>
+                                            <label for="name">Phone Number</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <input type="datetime-local" class="form-control" id="time_found" name="time_found" required>
+                                            <label for="name">Time found</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <textarea name="description" class="form-control" id=""></textarea>
+                                            <label for="name">Description About the Item </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <input type="file" class="form-control" id="image" name="images[]" accept="image/*" required>
                                         </div>
                                     </div>
 
                                     <div class="col-md-6">
                                         <div class="form-floating">
                                             <!-- <label for="name">Country</label> -->
-                                            <select name="state" id="state" class="form-control">
-                                                <option value="">Select State</option>
+                                            <select name="visibility" id="visibility" class="form-control" required>
+                                                <option value="">Visibility Status</option>
+                                                <option value="private">Visible</option>
+                                                <option value="public">Anonymous</option>
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="form-floating">
-                                            <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
-                                            <label for="password">Your Password</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-floating">
-                                            <!-- <label for="name">Country</label> -->
-                                            <select name="role" id="role" class="form-control" required>
-                                                <option value="" disabled selected>Account Type</option>
-                                                <option value="finder">Finder</option>
-                                                <option value="loser">Looser</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
                                     <div class="col-12">
-                                        <button class="btn btn-primary w-100 py-3" type="submit" name="submit">Register</button>
+                                        <button class="btn btn-primary w-100 py-3" type="submit" name="submit">Submit</button>
                                     </div>
-                                    <div class="col-12 text-center">
-                                        <a class="btn btn-link" href="register.php">Don't have an account? Register Now</a>
-                                    </div>
+
                                 </div>
                             </form>
                         </div>

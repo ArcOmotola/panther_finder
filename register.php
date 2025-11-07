@@ -125,7 +125,7 @@ if (isset($_GET['success'])) {
                                             <select name="role" id="role" class="form-control" required>
                                                 <option value="" disabled selected>Account Type</option>
                                                 <option value="finder">Finder</option>
-                                                <option value="loser">Looser</option>
+                                                <option value="claimant">Claimant</option>
                                             </select>
                                         </div>
                                     </div>

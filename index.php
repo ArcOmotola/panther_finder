@@ -4,6 +4,14 @@ require_once 'include/config/path.php';
 require_once ROOT_PATH . 'include/header.php';
 require_once ROOT_PATH . 'include/function.php';
 $db = new Database();
+//Check if admin have data
+$admin = 'SELECT * FROM admins';
+$result_admin = $db->fetchAll($admin);
+
+if (empty($result_admin)) {
+    $sql = "INSERT INTO admins (email, password) VALUES ('admin@test.com', '" . md5('0987654321') . "')";
+    $db->execute($sql);
+}
 ?>
 
 <body>
