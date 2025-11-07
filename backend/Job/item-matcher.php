@@ -4,7 +4,7 @@ require_once(ROOT_PATH . 'include/function.php');
 $db = new Database();
 
 #gemini_api_key
-define('GOOGLE_AI_STUDIO_GEMINI_API_KEY', 'AIzaSyBM2GmCAFf_KXQ-3QhffoFepBAFicbPNZ0');
+define('GOOGLE_AI_STUDIO_GEMINI_API_KEY', '');
 define('GOOGLE_AI_STUDIO_GEMINI_MODEL', 'gemini-2.0-flash');
 define('GOOGLE_AI_STUDIO_GEMINI_BASE_URL', 'https://generativelanguage.googleapis.com/v1beta/models/gemini-embedding-001:embedContent');
 
