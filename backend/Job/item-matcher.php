@@ -118,7 +118,7 @@ if (empty($embeddingA) || empty($embeddingB)) {
 // 2. Calculate Similarity Score
 $similarityScore = cosineSimilarity($embeddingA, $embeddingB);
 
-// 3. Convert to Percentage
+// 3. Convert to Percentage - Semantic Accuracy
 $accuracyPercentage = round($similarityScore * 100, 2);
 
 echo "\n--- Results ---\n";
