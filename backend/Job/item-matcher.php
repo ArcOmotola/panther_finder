@@ -15,6 +15,7 @@ $sentenceA = "The fast automobile accelerated quickly on the asphalt road.";
 $sentenceB = "A rapid car sped up fast on the tarmac.";
 // Expected result: High similarity (paraphrases)
 
+
 /**
  * Step 1: Call the Gemini API to get the embedding vector for a single sentence.
  * @param string $text The sentence to embed.
