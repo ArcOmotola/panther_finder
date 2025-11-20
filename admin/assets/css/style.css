@@ -1664,7 +1664,7 @@ html.menu-opened body {
 -----------------------*/
 
 .sidebar {
-    background-color: #1b5a90;
+    background-color: #6222cc;
    /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);*/
     bottom: 0;
     left: 0;
@@ -1730,7 +1730,7 @@ html.menu-opened body {
 	line-height: 40px;
 }
 .sidebar-menu li.menu-title a {
-    color: #ff9b44;
+    color: #9b0d92;
     display: inline-block;
     margin-left: auto;
     padding: 0;

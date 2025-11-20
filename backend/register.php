@@ -59,9 +59,11 @@ if (isset($_POST['submit'])) {
                     <p>Best regards,</p>
                     <p>Panther Finder Team</p>
                     ";
-                    generalEmailSender($subject, $to, $body, $full_name);
-
-                    $success_message = "Registration successful";
+                    if (generalEmailSender($subject, $to, $body, $full_name) == "success") {
+                          $success_message = "Registration successful and email sent";
+                    }else{
+                        $success_message = "Registration successful and email could not be sent";
+                    }
                     header("Location: ../login.php?success=" . $success_message);
                 }
             }

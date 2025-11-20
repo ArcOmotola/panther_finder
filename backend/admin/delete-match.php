@@ -8,8 +8,8 @@ if (isset($_GET['id'])) {
     $sql = "DELETE FROM fosters WHERE id = :id";
     $result = $db->execute($sql, ['id' => $id]);
     if ($result) {
-        $success_message = "Foster deleted successfully";
-        header("Location: ../../admin/foster-child.php?success=" . $success_message);
+        $success_message = "Data deleted successfully";
+        header("Location: ../../admin/index.php?success=" . $success_message);
         exit;
     }
 } else {

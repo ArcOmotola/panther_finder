@@ -21,6 +21,16 @@ $result_colors = $db->fetchAll($colors);
 
 $categories = 'SELECT name, id FROM categories';
 $result_categories = $db->fetchAll($categories);
+
+$sql_pickup = "SELECT * FROM pickup_locations";
+$pickup_locations = $db->fetchAll($sql_pickup);
+
+$finder_report = 'SELECT categories.name as category_name, colors.name as color_name, finder_reports.* FROM finder_reports 
+JOIN categories ON categories.id = finder_reports.category_id
+JOIN colors ON colors.id = finder_reports.color_id
+WHERE finder_reports.id = :id LIMIT 1';
+$result_report = $db->fetch($finder_report, ['id' => $_GET['id']]);
+
 ?>
 
 <body>
@@ -45,12 +55,12 @@ $result_categories = $db->fetchAll($categories);
             <div class="container py-5 px-lg-5">
                 <div class="wow fadeInUp" data-wow-delay="0.1s">
                     <!-- <p class="section-title text-secondary justify-content-center"><span></span>Contact Us<span></span></p> -->
-                    <h1 class="text-center mb-5">Climant Item Information</h1>
+                    <h1 class="text-center mb-5">Claimant Item Information</h1>
                 </div>
                 <div class="row justify-content-center">
                     <div class="col-lg-7">
                         <div class="wow fadeInUp" data-wow-delay="0.3s">
-                            <p class="text-center mb-4">Please enter item detail here</p>
+                            <h4 class="text-center text-warning mb-4">Item Name : <?= $result_report['title'] ?></h4>
                             <?php
                             if (isset($error_message)) { ?>
 
@@ -74,26 +84,27 @@ $result_categories = $db->fetchAll($categories);
 
                             <form action="backend/clamint-form.php" method="post" enctype="multipart/form-data">
                                 <div class="row g-3">
-                                    <div class="col-md-6">
+                                    <!-- <div class="col-md-6">
                                         <div class="form-floating">
                                             <select name="category_id" id="category_id" class="form-control">
-                                                <option value="">Item Category</option>
-                                                <?php foreach ($result_categories as $categories) { ?> <option value="<?= $categories['id'] ?>"><?= $categories['name'] ?></option> <?php } ?>
+                                                <option value="<?= $result_report['category_id'] ?>"><?= $result_report['category_name'] ?></option>
                                             </select>
                                         </div>
-                                    </div>
+                                    </div> -->
+                                    <input type="hidden" name="category_id" value="<?= $result_report['category_id'] ?>">
                                     <div class="col-md-6">
                                         <div class="form-floating">
                                             <select name="color_id" id="color_id" class="form-control">
-                                                <option value="">Color</option>
+                                                <option value="" selected> Select Color</option>
                                                 <?php foreach ($result_colors as $colors) { ?> <option value="<?= $colors['id'] ?>"><?= $colors['name'] ?></option> <?php } ?>
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+
+                                    <div class="col-md-6 hidden">
                                         <div class="form-floating">
-                                            <input type="text" class="form-control" id="name" name="item_name" placeholder="Enter your Full name" required>
-                                            <label for="name">Item Name</label>
+                                            <input type="hidden" class="form-control" id="name" name="item_name" value="<?= $result_report['title']  ?>" placeholder="Enter your Full name" required>
+                                            <!-- <label for="name">Item Name</label> -->
                                         </div>
                                     </div>
 
@@ -111,11 +122,16 @@ $result_categories = $db->fetchAll($categories);
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-floating">
-                                            <input type="datetime-local" class="form-control" id="time_found" name="time_found" required>
-                                            <label for="name">Time found</label>
+                                            <input type="time" class="form-control" id="time_found" name="lost_time" required>
+                                            <label for="name">Lost time</label>
                                         </div>
                                     </div>
-
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <input type="date" class="form-control" id="date_found" name="lost_date" required>
+                                            <label for="name">Lost Date</label>
+                                        </div>
+                                    </div>
                                     <div class="col-md-6">
                                         <div class="form-floating">
                                             <textarea name="description" class="form-control" id=""></textarea>
@@ -125,20 +141,24 @@ $result_categories = $db->fetchAll($categories);
 
                                     <div class="col-md-6">
                                         <div class="form-floating">
-                                            <input type="file" class="form-control" id="image" name="images[]" accept="image/*" required>
+                                            <input type="file" class="form-control" id="image" name="images" accept="image/*" required>
                                         </div>
                                     </div>
-
                                     <div class="col-md-6">
                                         <div class="form-floating">
-                                            <!-- <label for="name">Country</label> -->
-                                            <select name="visibility" id="visibility" class="form-control" required>
-                                                <option value="">Visibility Status</option>
-                                                <option value="private">Visible</option>
-                                                <option value="public">Anonymous</option>
+                                            <select name="pick_up_id" id="pick_up_id" class="form-control" required>
+                                                <option value="" selected>Select a Pick Up Location</option>
+                                                <?php
+                                                foreach ($pickup_locations as $location) {
+                                                    echo '<option value="' . $location['id'] . '">' . $location['name'] . '</option>';
+                                                }
+                                                ?>
+
                                             </select>
                                         </div>
                                     </div>
+
+                                    <input type="hidden" name="finder_id" value="<?= $_GET['id'] ?>">
                                     <div class="col-12">
                                         <button class="btn btn-primary w-100 py-3" type="submit" name="submit">Submit</button>
                                     </div>

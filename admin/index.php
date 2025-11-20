@@ -7,9 +7,39 @@
 
 	//get foster info
 	//Display random 8 foster homes from USA (country_id = 231)
-	$lost_items = "SELECT * FROM finder_reports order by created_at LIMIT 6";
+	$lost_items = "SELECT categories.name as category_name, colors.name as color_name, users.name as user_name, finder_reports.* FROM finder_reports 
+	JOIN categories ON categories.id = finder_reports.category_id
+	JOIN colors ON colors.id = finder_reports.color_id
+	JOIN users ON users.id = finder_reports.user_id
+	order by created_at LIMIT 10";
 	$result_lost_items = $db->fetchAll($lost_items);
 
+	$user_count = "SELECT * FROM users";
+	$result_user_count = $db->fetchAll($user_count);
+
+
+	$lost_items_count = "SELECT * FROM finder_reports";
+	$result_lost_items_count = $db->fetchAll($lost_items_count);
+
+	
+	$claim_items_count = "SELECT * FROM claimant_reports";
+	$result_claim_count = $db->fetchAll($claim_items_count);
+
+	$unmatch_sql = "SELECT * FROM finder_claimants WHERE match_status = :status";
+	$unmatch_count = $db->fetchAll($unmatch_sql, [
+		'status' => 'pending'
+	]);
+
+	
+	$match_count_sql = "SELECT * FROM finder_claimants WHERE match_status = :status";
+	$match_count = $db->fetchAll($match_count_sql, [
+		'status' => 'approved'
+	]);
+	
+	$decline_match_sql = "SELECT * FROM finder_claimants WHERE match_status = :status";
+	$decline_match_count = $db->fetchAll($decline_match_sql, [
+		'status' => 'declined'
+	]);
 	?>
 
 
@@ -46,7 +76,7 @@
 					<!-- /Page Header -->
 
 					<div class="row">
-						<div class="col-xl-3 col-sm-6 col-12">
+						<div class="col-xl-4 col-sm-6 col-12">
 							<div class="card">
 								<div class="card-body">
 									<div class="dash-widget-header">
@@ -54,7 +84,7 @@
 											<i class="fe fe-users"></i>
 										</span>
 										<div class="dash-count">
-											<h3>10</h3>
+											<h3><?= count($result_user_count) ?? 0 ?></h3>
 										</div>
 									</div>
 									<div class="dash-widget-info">
@@ -66,7 +96,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-xl-3 col-sm-6 col-12">
+						<div class="col-xl-4 col-sm-6 col-12">
 							<div class="card">
 								<div class="card-body">
 									<div class="dash-widget-header">
@@ -74,12 +104,11 @@
 											<i class="fe fe-user"></i>
 										</span>
 										<div class="dash-count">
-											<h3>6</h3>
+											<h3><?= count($result_lost_items_count) ?? 0 ?></h3>
 										</div>
 									</div>
 									<div class="dash-widget-info">
-
-										<h6 class="text-muted">Lost Items</h6>
+										<h6 class="text-muted">Lost Reports</h6>
 										<div class="progress progress-sm">
 											<div class="progress-bar bg-success w-50"></div>
 										</div>
@@ -87,7 +116,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-xl-3 col-sm-6 col-12">
+						<div class="col-xl-4 col-sm-6 col-12">
 							<div class="card">
 								<div class="card-body">
 									<div class="dash-widget-header">
@@ -95,12 +124,12 @@
 											<i class="fe fe-user"></i>
 										</span>
 										<div class="dash-count">
-											<h3>5</h3>
+											<h3><?=  count($result_claim_count) ?? 0 ?></h3>
 										</div>
 									</div>
 									<div class="dash-widget-info">
 
-										<h6 class="text-muted">Match Items</h6>
+										<h6 class="text-muted">Claimants Report</h6>
 										<div class="progress progress-sm">
 											<div class="progress-bar bg-danger w-50"></div>
 										</div>
@@ -108,7 +137,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-xl-3 col-sm-6 col-12">
+						<div class="col-xl-4 col-sm-6 col-12">
 							<div class="card">
 								<div class="card-body">
 									<div class="dash-widget-header">
@@ -116,12 +145,55 @@
 											<i class="fe fe-user"></i>
 										</span>
 										<div class="dash-count">
-											<h3>5</h3>
+											<h3><?=  count($match_count) ?? 0 ?></h3>
 										</div>
 									</div>
 									<div class="dash-widget-info">
 
-										<h6 class="text-muted">Unmatch Items</h6>
+										<h6 class="text-muted">Matched Request</h6>
+										<div class="progress progress-sm">
+											<div class="progress-bar bg-warning w-50"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-xl-4 col-sm-6 col-12">
+							<div class="card">
+								<div class="card-body">
+									<div class="dash-widget-header">
+										<span class="dash-widget-icon text-warning border-warning">
+											<i class="fe fe-user"></i>
+										</span>
+										<div class="dash-count">
+											<h3><?=  count($unmatch_count) ?? 0 ?></h3>
+										</div>
+									</div>
+									<div class="dash-widget-info">
+
+										<h6 class="text-muted">Unmatched Requests</h6>
+										<div class="progress progress-sm">
+											<div class="progress-bar bg-warning w-50"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-xl-4 col-sm-6 col-12">
+							<div class="card">
+								<div class="card-body">
+									<div class="dash-widget-header">
+										<span class="dash-widget-icon text-warning border-warning">
+											<i class="fe fe-user"></i>
+										</span>
+										<div class="dash-count">
+											<h3><?=  count($unmatch_count) ?? 0 ?></h3>
+										</div>
+									</div>
+									<div class="dash-widget-info">
+
+										<h6 class="text-muted">Decline Request</h6>
 										<div class="progress progress-sm">
 											<div class="progress-bar bg-warning w-50"></div>
 										</div>
@@ -172,12 +244,12 @@
 														<td><?= $num ?></td>
 														<td>
 															<h2 class="table-avatar">
-																<a href="#"><?= $home['user_id'] ?></a>
+																<a href="#"><?= $home['user_name'] ?></a>
 															</h2>
 														</td>
 														<td><?= $home['title'] ?></td>
-														<td class="text-right"><?= $home['category_id'] ?></td>
-														<td><?= $home['color_id'] ?></td>
+														<td class="text-right"><?= $home['category_name'] ?></td>
+														<td><?= $home['color_name'] ?></td>
 														<td><?= $home['status'] ?></td>
 														<td><?= $home['created_at'] ?></td>
 													</tr>

@@ -12,9 +12,137 @@ if (empty($result_admin)) {
     $sql = "INSERT INTO admins (email, password) VALUES ('admin@test.com', '" . md5('0987654321') . "')";
     $db->execute($sql);
 }
+
+$colors = 'SELECT name, id FROM colors';
+$result_colors = $db->fetchAll($colors);
+
+if (empty($result_colors)) {
+    $colors = [
+        [
+            'name' => 'Black',
+        ],
+        [
+            'name' => 'Blue',
+        ],
+        [
+            'name' => 'Green',
+        ],
+        [
+            'name' => 'Orange',
+        ],
+        [
+            'name' => 'Brown',
+        ],
+        [
+            'name' => 'Red',
+        ],
+        [
+            'name' => 'Pink',
+        ],
+        [
+            'name' => 'Purple',
+        ],
+        [
+            'name' => 'White',
+        ],
+        [
+            'name' => 'Yelloe',
+        ],
+        [
+            'name' => 'Gray',
+        ],
+        [
+            'name' => 'Cyan',
+        ],
+    ];
+    foreach ($colors as $color) {
+        $sql_category = "INSERT INTO colors (name) VALUES (:name)";
+        $params = [
+            'name' => $color['name'],
+        ];
+        $db->execute($sql_category, $params);
+    }
+}
+
+
+$categories = [
+    [
+        'name' => 'Phone',
+    ],
+    [
+        'name' => 'Bag',
+    ],
+    [
+        'name' => 'Pen',
+    ],
+    [
+        'name' => 'Laptop',
+    ],
+    [
+        'name' => 'AirPod',
+    ],
+    [
+        'name' => 'Ring',
+    ],
+    [
+        'name' => 'Book',
+    ],
+    [
+        'name' => 'Camera',
+    ],
+    [
+        'name' => 'Clothes',
+    ],
+    [
+        'name' => 'Shoes',
+    ],
+    [
+        'name' => 'Pants',
+    ],
+    [
+        'name' => 'Other',
+    ],
+];
+$category = 'SELECT name, id FROM categories';
+$result_categories = $db->fetchAll($category);
+if (empty($result_categories)) {
+
+    foreach ($categories as $category) {
+        $sql_category = "INSERT INTO categories (name) VALUES(:name)";
+        $params = [
+            'name' => $category['name'],
+        ];
+        $db->execute($sql_category, $params);
+    }
+}
+
+
+$finder_reports = "SELECT categories.name as category_name, colors.name as color_name, users.name as user_name, finder_reports.* FROM finder_reports 
+	JOIN categories ON categories.id = finder_reports.category_id
+	JOIN colors ON colors.id = finder_reports.color_id
+	JOIN users ON users.id = finder_reports.user_id order by created_at desc";
+$result_finder_reports = $db->fetchAll($finder_reports);
+
+//Search result
+if (isset($_GET['search'])) {
+    $search = $_GET['search'];
+    $finder_reports = "SELECT categories.name as category_name, colors.name as color_name, users.name as user_name, finder_reports.* FROM finder_reports 
+    JOIN categories ON categories.id = finder_reports.category_id
+    JOIN colors ON colors.id = finder_reports.color_id
+    JOIN users ON users.id = finder_reports.user_id WHERE title LIKE '%$search%' OR finder_reports.description LIKE '%$search%' order by created_at desc";
+    $result_finder_reports = $db->fetchAll($finder_reports);
+}
 ?>
 
 <body>
+    <style>
+        .blur-image {
+            filter: blur(60px);
+            /* Applies a 5-pixel Gaussian blur */
+            -webkit-filter: blur(60px);
+            /* For compatibility with older WebKit browsers */
+        }
+    </style>
     <div class="container-xxl bg-white p-0">
         <!-- Spinner Start -->
         <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
@@ -38,43 +166,82 @@ if (empty($result_admin)) {
                         <p class="text-white pb-3 animated slideInDown">
                             Panther Finder connects finders and owners through a smart matching system. Report, search, and reclaim your lost items with ease.
                         </p>
-                        <a href="login.php" class="btn btn-secondary py-sm-3 px-sm-5 rounded-pill me-3 animated slideInLeft">Report Lost Item</a>
+                        <?php
+                        if (isset($_SESSION['role'])) {
+                            if ($_SESSION['role'] == 'finder') {
+                                echo '<a href="project.php" class="btn btn-secondary py-sm-3 px-sm-5 rounded-pill me-3 animated slideInLeft">Report Lost Item</a>';
+                            } else {
+                                echo '<a href="index.php" class="btn btn-secondary py-sm-3 px-sm-5 rounded-pill me-3 animated slideInLeft">Claim Item</a>';
+                            }
+                        } else {
+                            echo '<a href="login.php" class="btn btn-secondary py-sm-3 px-sm-5 rounded-pill me-3 animated slideInLeft">Get Started</a>';
+                        }
+                        ?>
                     </div>
-                    <div class="col-lg-6 text-center text-lg-start">
+                    <?php
+                    if (isset($_SESSION['id']) && isset($_SESSION['role'])) {
+
+                        if ($_SESSION['role'] == 'finder') {
+                            # code...
+                            echo '<div class="col-lg-6 text-center text-lg-start">
+                                            <img class="img-fluid animated zoomIn" src="assets/img/lost-report.png" alt="">
+                                        </div>';
+                        } else {
+                            echo '<div class="col-lg-6 text-center text-lg-start">
+                                            <img class="img-fluid animated zoomIn" src="assets/img/claim.png" alt="">
+                                        </div>';
+                        }
+                    } else {
+                        echo '<div class="col-lg-6 text-center text-lg-start">
+                                        <img class="img-fluid animated zoomIn" src="assets/img/hero.png" alt="">
+                                    </div>';
+                    }
+                    ?>
+                    <!-- <div class="col-lg-6 text-center text-lg-start">
                         <img class="img-fluid animated zoomIn" src="assets/img/hero.png" alt="">
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
         <!-- Feature Start -->
-        <div class="container-xxl py-5">
-            <div class="container py-5 px-lg-5">
-                <p class="section-title text-secondary justify-content-center">How to report Lost Item</p>
-                <div class="row g-4">
-                    <div class="col-lg-4 wow fadeInUp" data-wow-delay="0.1s">
-                        <div class="feature-item bg-light rounded text-center p-4">
-                            <i class="fa fa-3x fa-mail-bulk text-primary mb-4"></i>
-                            <h5 class="mb-3">Signup</h5>
-                            <p class="m-0">Register your account with Panther Finder.</p>
-                        </div>
+
+        <?php
+        if (isset($_SESSION['id']) && isset($_SESSION['role']) && $_SESSION['role'] == "claimant") { ?>
+            <div class="container-xxl py-5">
+                <div class="container py-5 px-lg-5">
+                    <p class="section-title text-secondary justify-content-center">Lost Item reports</p>
+                    <br>
+                    <div class="row g-4">
+                        <form action="index.php" method="get">
+                            <input type="text" name="search" placeholder="Search" class="form-control">
+                        </form>
                     </div>
-                    <div class="col-lg-4 wow fadeInUp" data-wow-delay="0.3s">
-                        <div class="feature-item bg-light rounded text-center p-4">
-                            <i class="fa fa-3x fa-search text-primary mb-4"></i>
-                            <h5 class="mb-3">Report Lost Item</h5>
-                            <p class="m-0">Login and choose to report your lost item.</p>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 wow fadeInUp" data-wow-delay="0.5s">
-                        <div class="feature-item bg-light rounded text-center p-4">
-                            <i class="fa fa-3x fa-thumbs-up text-primary mb-4"></i>
-                            <h5 class="mb-3">Wait for report</h5>
-                            <p class="m-0">Report to be verified and match with the owner.</p>
-                        </div>
+                    <br>
+                    <br>
+                    <div class="row g-4">
+                        <?php
+                        if (!empty($result_finder_reports)) {
+                            foreach ($result_finder_reports as $result) { ?>
+
+                                <div class="col-lg-4 wow fadeInUp" data-wow-delay="0.1s">
+                                    <div class="feature-item bg-light rounded text-center p-4">
+                                        <a href="claimant-form.php?id=<?= $result['id']  ?>">
+                                            <img class="img-fluid w-100 blur-image" src="<?= $result['image']  ?>" alt="" width="300px" height="400px">
+                                        </a>
+                                        <!-- <i class="fa fa-3x fa-mail-bulk text-primary mb-4"></i> -->
+                                        <h5 class="mb-3"><?= $result['title']  ?></h5>
+                                    </div>
+                                </div>
+                            <?php }  ?>
+                        <?php }
+                        ?>
+
                     </div>
                 </div>
             </div>
-        </div>
+        <?php }
+        ?>
+
         <!-- Feature End -->
 
 
@@ -129,71 +296,12 @@ if (empty($result_admin)) {
 
         <!-- Facts Start -->
 
-        <p class="section-title text-secondary justify-content-center">Recently Reported Items</p>
-        <div class="container-xxl bg-primary fact py-5 wow fadeInUp" data-wow-delay="0.1s">
-            <div class="container py-5 px-lg-5">
-                <div class="row g-4">
-                    <div class="col-md-6 col-lg-3 text-center wow fadeIn" data-wow-delay="0.1s">
-                        <i class="fa fa-certificate fa-3x text-secondary mb-3"></i>
-                        <h1 class="text-white mb-2" data-toggle="counter-up">10</h1>
-                        <p class="text-white mb-0">All Reports</p>
-                    </div>
-                    <div class="col-md-6 col-lg-3 text-center wow fadeIn" data-wow-delay="0.3s">
-                        <i class="fa fa-users-cog fa-3x text-secondary mb-3"></i>
-                        <h1 class="text-white mb-2" data-toggle="counter-up">10</h1>
-                        <p class="text-white mb-0">Lost Items</p>
-                    </div>
-                    <div class="col-md-6 col-lg-3 text-center wow fadeIn" data-wow-delay="0.5s">
-                        <i class="fa fa-check fa-3x text-secondary mb-3"></i>
-                        <h1 class="text-white mb-2" data-toggle="counter-up">8</h1>
-                        <p class="text-white mb-0">Match Reports</p>
-                    </div>
-                    <div class="col-md-6 col-lg-3 text-center wow fadeIn" data-wow-delay="0.7s">
-                        <i class="fa fa-users fa-3x text-secondary mb-3"></i>
-                        <h1 class="text-white mb-2" data-toggle="counter-up">2</h1>
-                        <p class="text-white mb-0">Pending Reports</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+
         <!-- Facts End -->
 
 
 
 
-        <!-- Projects Start -->
-        <div class="container-xxl py-5">
-            <div class="container py-5 px-lg-5">
-                <div class="wow fadeInUp" data-wow-delay="0.1s">
-                    <!-- <p class="section-title text-secondary justify-content-center"><span></span>Our Projects<span></span></p> -->
-                    <h1 class="text-center mb-5">Recently Reported Items</h1>
-                </div>
-                <div class="row mt-n2 wow fadeInUp" data-wow-delay="0.3s">
-                    <div class="col-12 text-center">
-
-                    </div>
-                </div>
-                <div class="row g-4 portfolio-container">
-                    <div class="col-lg-4 col-md-6 portfolio-item  wow fadeInUp" data-wow-delay="0.1s">
-                        <div class="rounded overflow-hidden">
-                            <div class="position-relative overflow-hidden">
-                                <img class="img-fluid w-100" src="assets/img/iphon3.jpeg" alt="" width="300px" height="400px">
-                                <div class="portfolio-overlay">
-                                    <a class="btn btn-square btn-outline-light mx-1" href="assets/img/iphon3.jpeg" width="500px" height="400px" data-lightbox="portfolio"><i class="fa fa-eye"></i></a>
-                                    <a class="btn btn-square btn-outline-light mx-1" href=""><i class="fa fa-link"></i></a>
-                                </div>
-                            </div>
-                            <div class="bg-light p-4">
-                                <p class="text-primary fw-medium mb-2">Iphone 7 Plus Found</p>
-                                <h5 class="lh-base mb-0">Iphone 7 Plus Found at the location of 123, 456, New York, USA</a>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-        <!-- Projects End -->
 
 
         <!-- Testimonial Start -->
@@ -205,7 +313,7 @@ if (empty($result_admin)) {
                     <div class="testimonial-item bg-light rounded my-4">
                         <p class="fs-5"><i class="fa fa-quote-left fa-4x text-primary mt-n4 me-3"></i>I found my AirPods within 24 hours of posting! Thanks, Panther Finder.</p>
                         <div class="d-flex align-items-center">
-                            <img class="img-fluid flex-shrink-0 rounded-circle" src="assets/img/testimonial-1.jpg" style="width: 65px; height: 65px;">
+                            <img class="img-fluid flex-shrink-0 rounded-circle" src="assets/img/salv.jpeg" style="width: 65px; height: 65px;">
                             <div class="ps-4">
                                 <h5 class="mb-1">David A</h5>
                                 <span>Student</span>
@@ -215,7 +323,7 @@ if (empty($result_admin)) {
                     <div class="testimonial-item bg-light rounded my-4">
                         <p class="fs-5"><i class="fa fa-quote-left fa-4x text-primary mt-n4 me-3"></i>Someone returned my lost wallet after seeing my report. Amazing platform.</p>
                         <div class="d-flex align-items-center">
-                            <img class="img-fluid flex-shrink-0 rounded-circle" src="assets/img/testimonial-2.jpg" style="width: 65px; height: 65px;">
+                            <img class="img-fluid flex-shrink-0 rounded-circle" src="assets/img/omoto.jpeg" style="width: 65px; height: 65px;">
                             <div class="ps-4">
                                 <h5 class="mb-1">Omotola A</h5>
                                 <span>Student</span>
@@ -240,7 +348,7 @@ if (empty($result_admin)) {
                     <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
                         <div class="team-item bg-light rounded">
                             <div class="text-center border-bottom p-4">
-                                <img class="img-fluid rounded-circle mb-4" src="assets/img/team-1.jpg" alt="">
+                                <img class="img-fluid rounded-circle mb-4" src="assets/img/salv.jpeg" alt="">
                                 <h5>Silva .S</h5>
                                 <span>Delivery Man</span>
                             </div>
@@ -254,7 +362,7 @@ if (empty($result_admin)) {
                     <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
                         <div class="team-item bg-light rounded">
                             <div class="text-center border-bottom p-4">
-                                <img class="img-fluid rounded-circle mb-4" src="assets/img/team-2.jpg" alt="">
+                                <img class="img-fluid rounded-circle mb-4" src="assets/img/omotoal.jpeg" alt="">
                                 <h5>Omotola A</h5>
                                 <span>Report Manager</span>
                             </div>
@@ -268,7 +376,7 @@ if (empty($result_admin)) {
                     <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
                         <div class="team-item bg-light rounded">
                             <div class="text-center border-bottom p-4">
-                                <img class="img-fluid rounded-circle mb-4" src="assets/img/team-3.jpg" alt="">
+                                <img class="img-fluid rounded-circle mb-4" src="assets/img/omoto.jpeg" alt="">
                                 <h5>Omotunde</h5>
                                 <span>Matching Manager</span>
                             </div>

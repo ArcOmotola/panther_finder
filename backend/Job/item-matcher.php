@@ -1,7 +1,5 @@
 <?php
-require_once('../../include/config/path.php');
-require_once(ROOT_PATH . 'include/function.php');
-$db = new Database();
+
 
 #gemini_api_key
 define('GOOGLE_AI_STUDIO_GEMINI_API_KEY', '');
@@ -11,10 +9,9 @@ define('GOOGLE_AI_STUDIO_GEMINI_BASE_URL', 'https://generativelanguage.googleapi
 
 
 // --- Input Sentences ---
-$sentenceA = "The fast automobile accelerated quickly on the asphalt road.";
-$sentenceB = "A rapid car sped up fast on the tarmac.";
+// $sentenceA = "A black gucci bag";
+// $sentenceB = "gucci bag";
 // Expected result: High similarity (paraphrases)
-
 
 /**
  * Step 1: Call the Gemini API to get the embedding vector for a single sentence.
@@ -31,7 +28,6 @@ function getEmbedding($text)
             'parts' => [['text' => $text]]
         ],
         // Important: Specify the task type for optimal comparison
-        'config' => ['taskType' => 'SEMANTIC_SIMILARITY']
     ]);
 
     $options = [
@@ -100,29 +96,29 @@ function cosineSimilarity(array $vecA, array $vecB)
 }
 
 
-// --- Execution ---
-echo "Comparing Sentences:\n";
-echo "A: " . $sentenceA . "\n";
-echo "B: " . $sentenceB . "\n\n";
+// // --- Execution ---
+// echo "Comparing Sentences:\n";
+// echo "A: " . $sentenceA . "\n";
+// echo "B: " . $sentenceB . "\n\n";
 
-// 1. Get Embeddings
-echo "Fetching embedding for Sentence A...\n";
-$embeddingA = getEmbedding($sentenceA);
-echo "Fetching embedding for Sentence B...\n";
-$embeddingB = getEmbedding($sentenceB);
+// // 1. Get Embeddings
+// echo "Fetching embedding for Sentence A...\n";
+// $embeddingA = getEmbedding($sentenceA);
+// echo "Fetching embedding for Sentence B...\n";
+// $embeddingB = getEmbedding($sentenceB);
 
-// Check if embeddings were retrieved successfully
-if (empty($embeddingA) || empty($embeddingB)) {
-    die("Could not retrieve one or both embeddings. Check API key and network connection.\n");
-}
+// // Check if embeddings were retrieved successfully
+// if (empty($embeddingA) || empty($embeddingB)) {
+//     die("Could not retrieve one or both embeddings. Check API key and network connection.\n");
+// }
 
-// 2. Calculate Similarity Score
-$similarityScore = cosineSimilarity($embeddingA, $embeddingB);
+// // 2. Calculate Similarity Score
+// $similarityScore = cosineSimilarity($embeddingA, $embeddingB);
 
-// 3. Convert to Percentage - Semantic Accuracy
-$accuracyPercentage = round($similarityScore * 100, 2);
+// // 3. Convert to Percentage
+// $accuracyPercentage = round($similarityScore * 100, 2);
 
-echo "\n--- Results ---\n";
-echo "Cosine Similarity Score (0.0 to 1.0): " . number_format($similarityScore, 4) . "\n";
-echo "Semantic Accuracy Percentage: **" . $accuracyPercentage . "%**\n";
-echo "-----------------\n";
+// echo "\n--- Results ---\n";
+// echo "Cosine Similarity Score (0.0 to 1.0): " . number_format($similarityScore, 4) . "\n";
+// echo "Semantic Accuracy Percentage: **" . $accuracyPercentage . "%**\n";
+// echo "-----------------\n";

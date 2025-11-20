@@ -6,7 +6,11 @@
 	$db = new Database();
 
 	//items
-	$finder_reports = "SELECT * FROM finder_reports order by created_at";
+	$finder_reports = "SELECT categories.name as category_name, colors.name as color_name, users.name as user_name, finder_reports.* FROM finder_reports 
+	JOIN categories ON categories.id = finder_reports.category_id
+	JOIN colors ON colors.id = finder_reports.color_id
+	JOIN users ON users.id = finder_reports.user_id
+	order by created_at desc";
 	$result_finder_reports = $db->fetchAll($finder_reports);
 	?>
 
@@ -72,27 +76,26 @@
 														<td><?= $num ?></td>
 														<td>
 															<h2 class="table-avatar">
-																<a href="profile.html" class="avatar avatar-sm mr-2"><img class="avatar-img rounded-circle" src="assets/img/doctors/doctor-thumb-01.jpeg" alt="User Image"></a>
-																<a href="#"><?= $items['user_id'] ?></a>
+																<a href="#"><?= $items['user_name'] ?></a>
 															</h2>
 														</td>
 														<td><?= $items['title'] ?></td>
-														<td><?= $items['description'] ?></td>
-														<td><?= $items['image'] ?></td>
+														<td><?= strlen($items['description']) > 50 ? substr($items['description'], 0, 50) . '...' : $items['description'] ?></td>
+														<td><img src="../<?= $items['image'] ?>" width="50px" height="50px" alt="" class="rounded" srcset=""></td>
 														<td><?= $items['phone'] ?></td>
-														<td><?= $items['category_id'] ?></td>
+														<td><?= $items['category_name'] ?></td>
 														<td class="text-right">
-															<?= $items['color_id'] ?>
+															<?= $items['color_name'] ?>
 														</td>
 														<td class="text-right">
 															<?= $items['created_at'] ?>
 														</td>
 														<td class="text-right">
 															<div class="actions">
-																<a class="btn btn-sm bg-success-light" href="#">
-																	<i class="fe fe-pencil"></i> Edit
+																<a class="btn btn-sm bg-info-light" href="#">
+																	<i class="fe fe-eye"></i> View
 																</a>
-																<a href="../backend/admin/delete-items.php?id=<?= $items['id'] ?>" class="btn btn-sm bg-danger-light">
+																<a href="../backend/admin/delete_lost_report.php?id=<?= $items['id'] ?>" class="btn btn-sm bg-danger-light">
 																	<i class="fe fe-trash"></i> Delete
 																</a>
 															</div>

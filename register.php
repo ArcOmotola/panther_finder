@@ -43,7 +43,6 @@ if (isset($_GET['success'])) {
                 <div class="row justify-content-center">
                     <div class="col-lg-7">
                         <div class="wow fadeInUp" data-wow-delay="0.3s">
-                            <p class="text-center mb-4">Please enter your detail here</p>
                             <?php
                             if (isset($error_message)) { ?>
 
@@ -81,6 +80,7 @@ if (isset($_GET['success'])) {
                                         <div class="form-floating">
                                             <input type="email" class="form-control" id="email" name="email" placeholder="Enter your Email" required>
                                             <label for="name">Email</label>
+                                            <span class="emailError text-danger"></span>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -131,10 +131,10 @@ if (isset($_GET['success'])) {
                                     </div>
 
                                     <div class="col-12">
-                                        <button class="btn btn-primary w-100 py-3" type="submit" name="submit">Register</button>
+                                        <button class="btn btn-primary w-100 py-3" type="submit" name="submit" id="submitBtn">Register</button>
                                     </div>
                                     <div class="col-12 text-center">
-                                        <a class="btn btn-link" href="register.php">Don't have an account? Register Now</a>
+                                        <a class="btn btn-link" href="register.php" >Don't have an account? Register Now</a>
                                     </div>
                                 </div>
                             </form>
@@ -192,6 +192,27 @@ if (isset($_GET['success'])) {
                 }
 
             })
+
+            $('.emailError').hide()
+            $('#email').on('keyup', function() {
+                const email = $('#email').val()
+                if (email == '') {
+                    $('.emailError').show()
+                    $('.emailError').html('Email can not be empty')
+                } else {
+                    // $('.emailError').hide()
+                    let matchEmailDomain = "pvamu.edu"
+                    $('.emailError').html('Email must have end with '+ matchEmailDomain)
+                    $('#submitBtn').hide();
+                    let convertToLowerCase = email.toLowerCase()
+                    if (email.indexOf(matchEmailDomain) != -1) {
+                        console.log(matchEmailDomain + "is found in " + convertToLowerCase);
+                    $('.emailError').hide() 
+                    $('#submitBtn').show();
+                    }
+                }
+            })
+
         })
     </script>
 </body>

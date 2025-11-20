@@ -16,7 +16,15 @@
                 </li>
 
                 <li>
-                    <a href="match-report.php"><i class="fe fe-users"></i> <span>UnMatch Reports</span></a>
+                    <a href="unmatch-report.php"><i class="fe fe-users"></i> <span>UnMatched Reports</span></a>
+                </li>
+
+                <li>
+                    <a href="match-report.php"><i class="fe fe-users"></i> <span>Matched Reports</span></a>
+                </li>
+
+                <li>
+                    <a href="users.php"><i class="fe fe-users"></i> <span>Users</span></a>
                 </li>
 
             </ul>

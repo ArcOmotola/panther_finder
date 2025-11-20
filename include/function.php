@@ -55,6 +55,7 @@ class Database
             $this->ClaimantTable();
             $this->FinderReportsTable();
             $this->FinderClaimants();
+            $this->PickupLocation();
         } catch (PDOException $e) {
             exit('Database Connection Failed: ' . $e->getMessage());
         }
@@ -128,11 +129,13 @@ class Database
             id INT AUTO_INCREMENT PRIMARY KEY,
             user_id INT NOT NULL,
             title VARCHAR(255) NOT NULL,
-            description VARCHAR(255) NOT NULL UNIQUE,
+            description VARCHAR(255) NULL,
             image VARCHAR(255) NOT NULL,
             phone VARCHAR(255) NULL,
             category_id INT NOT NULL,
-            color_id INT NOT NULL,            
+            color_id INT NOT NULL,
+            date_found VARCHAR(255) NOT NULL,
+            time_found VARCHAR(255) NOT NULL,        
             status ENUM("pending", "logged", "delivered") DEFAULT "pending",
             visibility ENUM("public", "private") DEFAULT "public",
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -149,17 +152,21 @@ class Database
             id INT AUTO_INCREMENT PRIMARY KEY,
             user_id INT NOT NULL,
             title VARCHAR(255) NOT NULL,
-            description VARCHAR(255) NOT NULL UNIQUE,
+            description VARCHAR(255) NULL ,
             image VARCHAR(255) NOT NULL,
             phone VARCHAR(255) NULL,
+            lost_time VARCHAR(255) NULL,
+            lost_date VARCHAR(255) NULL,
             category_id INT NOT NULL,
             color_id INT NOT NULL,            
+            pick_up_id INT NOT NULL,            
             role ENUM("pending", "logged", "delivered") DEFAULT "pending",
             visibility ENUM("public", "private") DEFAULT "public",
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
             FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE CASCADE,
-            FOREIGN KEY (color_id) REFERENCES colors(id) ON DELETE CASCADE
+            FOREIGN KEY (color_id) REFERENCES colors(id) ON DELETE CASCADE,
+            FOREIGN KEY (pick_up_id) REFERENCES pickup_locations(id) ON DELETE CASCADE
         )';
         $this->pdo->exec($sql);
     }
@@ -181,6 +188,17 @@ class Database
         $this->pdo->exec($sql);
     }
 
+    public function PickupLocation()
+    {
+        $sql = 'CREATE TABLE IF NOT EXISTS pickup_locations (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            name VARCHAR(255) DEFAULT 0,
+            status BOOLEAN DEFAULT TRUE,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            
+        )';
+        $this->pdo->exec($sql);
+    }
     // Method to execute SELECT queries
     public function fetchAll($query, $params = [])
     {

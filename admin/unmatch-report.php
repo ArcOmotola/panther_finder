@@ -10,7 +10,7 @@
 	FROM finder_claimants
 	JOIN finder_reports ON finder_reports.id = finder_claimants.finder_report_id
 	JOIN claimant_reports ON claimant_reports.id = finder_claimants.claimant_report_id
-	WHERE match_status = 'approved' order by created_at desc";
+	WHERE match_status != 'approved' order by created_at desc";
 	$result_reports = $db->fetchAll($macth_report);
 	?>
 
@@ -89,9 +89,9 @@
 														</td>
 														<td class="text-right">
 															<div class="actions">
-																<!-- <a class="btn btn-sm bg-success-light" href="match-edit.php?id=<?= $items['id'] ?>">
+																<a class="btn btn-sm bg-success-light" href="match-edit.php?id=<?= $items['id'] ?>">
 																	<i class="fe fe-pencil"></i> Edit
-																</a> -->
+																</a>
 																<a href="../backend/admin/delete-items.php?id=<?= $items['id'] ?>" class="btn btn-sm bg-danger-light">
 																	<i class="fe fe-trash"></i> Delete
 																</a>

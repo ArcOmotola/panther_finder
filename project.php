@@ -40,7 +40,7 @@ $result_projects = $db->fetchAll($projects, ['user_id' => $user]);
             <div class="container py-5 px-lg-5">
 
                 <div class="wow fadeInUp" data-wow-delay="0.1s">
-                    <h4>Do you have find something?</h4>
+                    <h4>Do you find something?</h4>
                     <a href="finder-form.php" class="btn btn-primary" type="button">Report Lost Item</a>
                     <p class="section-title text-secondary justify-content-center"><span></span>My Peports<span></span></p>
                     <h1 class="text-center mb-5">Recently Reported Items</h1>
@@ -54,10 +54,9 @@ $result_projects = $db->fetchAll($projects, ['user_id' => $user]);
                             <div class="col-lg-4 col-md-6 portfolio-item  wow fadeInUp" data-wow-delay="0.1s">
                                 <div class="rounded overflow-hidden">
                                     <div class="position-relative overflow-hidden">
-                                        <img class="img-fluid w-100" src="img/portfolio-1.jpg" alt="">
+                                        <img class="img-fluid w-100" src="<?= $project['image'] ?>" alt="">
                                         <div class="portfolio-overlay">
-                                            <a class="btn btn-square btn-outline-light mx-1" href="assets/img/portfolio-1.jpg" data-lightbox="portfolio"><i class="fa fa-eye"></i></a>
-                                            <a class="btn btn-square btn-outline-light mx-1" href=""><i class="fa fa-link"></i></a>
+                                            <a class="btn btn-square btn-outline-light mx-1" href="<?= $project['image'] ?>" data-lightbox="portfolio"><i class="fa fa-eye"></i></a>
                                         </div>
                                     </div>
                                     <div class="bg-light p-4">

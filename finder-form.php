@@ -12,15 +12,8 @@ if (empty($result_categories)) {
     $sql_category = "INSERT INTO categories (name) VALUES('Electronic')";
     $db->execute($sql_category);
 }
-
-
 $colors = 'SELECT name, id FROM colors';
 $result_colors = $db->fetchAll($colors);
-
-if (empty($result_colors)) {
-    $sql_category = "INSERT INTO colors (name) VALUES ('Black')";
-    $db->execute($sql_category);
-}
 // var_dump($result_countries);
 
 if (isset($_GET['error'])) {
@@ -85,7 +78,7 @@ if (isset($_GET['success'])) {
                                     <div class="col-md-6">
                                         <div class="form-floating">
                                             <select name="category_id" id="category_id" class="form-control">
-                                                <option value="">Item Category</option>
+                                                <option value="" selected>Select a Category</option>
                                                 <?php foreach ($result_categories as $categories) { ?> <option value="<?= $categories['id'] ?>"><?= $categories['name'] ?></option> <?php } ?>
                                             </select>
                                         </div>
@@ -93,7 +86,7 @@ if (isset($_GET['success'])) {
                                     <div class="col-md-6">
                                         <div class="form-floating">
                                             <select name="color_id" id="color_id" class="form-control">
-                                                <option value="">Color</option>
+                                                <option value="" selected> Select Color</option>
                                                 <?php foreach ($result_colors as $colors) { ?> <option value="<?= $colors['id'] ?>"><?= $colors['name'] ?></option> <?php } ?>
                                             </select>
                                         </div>
@@ -119,7 +112,14 @@ if (isset($_GET['success'])) {
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-floating">
-                                            <input type="datetime-local" class="form-control" id="time_found" name="time_found" required>
+                                            <input type="date" class="form-control" id="date_found" name="date_found" required>
+                                            <label for="name">Date found</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <input type="time" class="form-control" id="time_found" name="time_found" required>
                                             <label for="name">Time found</label>
                                         </div>
                                     </div>
@@ -133,7 +133,7 @@ if (isset($_GET['success'])) {
 
                                     <div class="col-md-6">
                                         <div class="form-floating">
-                                            <input type="file" class="form-control" id="image" name="images[]" accept="image/*" required>
+                                            <input type="file" class="form-control" id="image" name="images" accept="image/*" required>
                                         </div>
                                     </div>
 

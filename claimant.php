@@ -14,7 +14,9 @@ if (isset($_GET['success'])) {
     $success_message = $_GET['success'];
 }
 
-$projects = 'SELECT * FROM claimant_reports WHERE user_id = :user_id ORDER BY created_at DESC';
+$projects = 'SELECT pickup_locations.name as pickup_name, claimant_reports.* FROM claimant_reports 
+JOIN pickup_locations ON pickup_locations.id = claimant_reports.pick_up_id WHERE user_id = :user_id
+ORDER BY created_at DESC';
 $result_projects = $db->fetchAll($projects, ['user_id' => $user]);
 ?>
 
@@ -40,10 +42,10 @@ $result_projects = $db->fetchAll($projects, ['user_id' => $user]);
             <div class="container py-5 px-lg-5">
 
                 <div class="wow fadeInUp" data-wow-delay="0.1s">
-                    <h4>Do you lost something?</h4>
-                    <a href="climant-form.php" class="btn btn-primary" type="button">Report Claimat</a>
-                    <p class="section-title text-secondary justify-content-center"><span></span>My Claimats<span></span></p>
-                    <h1 class="text-center mb-5">Recently Claimants Items</h1>
+                    <h4>Did you lose something?</h4>
+                    <a href="index.php" class="btn btn-primary" type="button">Check Lost Item report</a>
+                    <p class="section-title text-secondary justify-content-center"><span></span>My Claims<span></span></p>
+                    <h1 class="text-center mb-5">Recently Claimed Items</h1>
                 </div>
 
                 <div class="row g-4 portfolio-container">
@@ -51,20 +53,36 @@ $result_projects = $db->fetchAll($projects, ['user_id' => $user]);
                         echo "No Data";
                     } else {
                         foreach ($result_projects as $project) { ?>
+                            <br>
                             <div class="col-lg-4 col-md-6 portfolio-item  wow fadeInUp" data-wow-delay="0.1s">
                                 <div class="rounded overflow-hidden">
                                     <div class="position-relative overflow-hidden">
-                                        <img class="img-fluid w-100" src="img/portfolio-1.jpg" alt="">
+                                        <img class="img-fluid w-100" src="<?= $project['image'] ?>" alt="">
                                         <div class="portfolio-overlay">
-                                            <a class="btn btn-square btn-outline-light mx-1" href="assets/img/portfolio-1.jpg" data-lightbox="portfolio"><i class="fa fa-eye"></i></a>
-                                            <a class="btn btn-square btn-outline-light mx-1" href=""><i class="fa fa-link"></i></a>
+                                            <a class="btn btn-square btn-outline-light mx-1" href="<?= $project['image'] ?>" data-lightbox="portfolio"><i class="fa fa-eye"></i></a>
+                                            <!-- <a class="btn btn-square btn-outline-light mx-1" href=""><i class="fa fa-link"></i></a> -->
                                         </div>
                                     </div>
                                     <div class="bg-light p-4">
                                         <p class="text-primary fw-medium mb-2"><?= $project['title'] ?></p>
                                         <h5 class="lh-base mb-0"><?= $project['description'] ?></a>
                                         </h5>
-                                        <a type="button" class="btn btn-warning" href="finder-form.php?id=<?= $project['id'] ?>"><?= $project['status'] ?></a>
+                                        <a type="button" class="btn btn-warning" href="finder-form.php?id=<?= $project['id'] ?>"><?= $project['role'] ?></a>
+                                        <?php
+                                        // var_dump($project);
+                                        if ($project['role'] == "delivered") {
+                                            //check Claimant code
+                                            $finder_claimant = "SELECT * FROM finder_claimants WHERE claimant_report_id = :id LIMIT 1";
+                                            $result_finder_claimant = $db->fetch($finder_claimant, ['id' => $project['id']]);
+                                            if (!empty($result_finder_claimant)) {
+                                                $claimant_code = $result_finder_claimant['smart_pin'];
+                                                $match_percentage = $result_finder_claimant['match_percentage'];
+                                                echo "<p class='text-primary fw-medium mb-2'>Claimant Code: " . $claimant_code . "</p>";
+                                                echo "<p class='text-primary fw-medium mb-2'>Match Percentage: " . $match_percentage . "%</p>";
+                                                echo "<p class='text-primary fw-medium mb-2'>Pickup Location: " . $project['pickup_name'] . "</p>";
+                                            }
+                                        }
+                                        ?>
                                     </div>
                                 </div>
                             </div>

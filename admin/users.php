@@ -6,12 +6,11 @@
 	$db = new Database();
 
 	//items
-	$macth_report = "SELECT finder_reports.id, finder_reports.title as finder_title, claimant_reports.id, claimant_reports.title as claimant_title, finder_claimants.* 
-	FROM finder_claimants
-	JOIN finder_reports ON finder_reports.id = finder_claimants.finder_report_id
-	JOIN claimant_reports ON claimant_reports.id = finder_claimants.claimant_report_id
-	WHERE match_status = 'approved' order by created_at desc";
-	$result_reports = $db->fetchAll($macth_report);
+	$users =
+		"SELECT countries.name as country_name, states.name as state_name, users.* FROM users 
+		JOIN countries ON countries.id = users.country_id 
+		JOIN states ON states.id = users.state_id order by created_at";
+	$result_users = $db->fetchAll($users);
 	?>
 
 	<body>
@@ -36,7 +35,7 @@
 					<div class="page-header">
 						<div class="row">
 							<div class="col-sm-12">
-								<h3 class="page-title">Match Items</h3>
+								<h3 class="page-title">Claimant Report</h3>
 								<ul class="breadcrumb">
 									<li class="breadcrumb-item active">Lists</li>
 								</ul>
@@ -55,44 +54,46 @@
 											<thead>
 												<tr>
 													<th>S/N</th>
-													<th>Finder Report</th>
-													<th>Claimant</th>
-													<th>Match Percentage</th>
-													<th>Admin Comment</th>
-													<th class="">Pick Up Pin</th>
-													<th>Status</th>
-													<th>Submited Date</th>
+													<th>Name</th>
+													<th>Email</th>
+													<th>Phone</th>
+													<th class="">Country</th>
+													<th class="">State</th>
+													<th class="">role</th>
+													<th>Joined Date</th>
 													<th>Action</th>
 												</tr>
 											</thead>
 											<tbody>
 												<?php
 												$num = 0;
-												foreach ($result_reports as $items) {
+												foreach ($result_users as $items) {
 													$num++;
 												?>
 													<tr>
 														<td><?= $num ?></td>
 														<td>
 															<h2 class="table-avatar">
-																<a href="#"><?= $items['finder_title'] ?></a>
+																<a href="#" class="avatar avatar-sm mr-2"><img class="avatar-img rounded-circle" src="assets/img/doctors/doctor-thumb-01.jpeg" alt="User Image"></a>
+																<a href="#"><?= $items['name'] ?></a>
 															</h2>
 														</td>
-														<td><?= $items['claimant_title'] ?></td>
-														<td><?= $items['match_percentage'] ?></td>
-														<td><?= $items['admin_comment'] ?? 'Nothing yet' ?></td>
-														<td><?= $items['smart_pin'] ?></td>
-														<td><?= $items['match_status'] ?></td>
-
+														<td><?= $items['email'] ?></td>
+														<td><?= $items['phone'] ?></td>
+														<td><?= $items['country_name'] ?></td>
+														<td><?= $items['state_name'] ?></td>
+														<td class="text-right">
+															<?= $items['role'] ?>
+														</td>
 														<td class="text-right">
 															<?= $items['created_at'] ?>
 														</td>
 														<td class="text-right">
 															<div class="actions">
-																<!-- <a class="btn btn-sm bg-success-light" href="match-edit.php?id=<?= $items['id'] ?>">
+																<a class="btn btn-sm bg-success-light" href="/admin/edit-user.php?id=<?= $items['id'] ?>">
 																	<i class="fe fe-pencil"></i> Edit
-																</a> -->
-																<a href="../backend/admin/delete-items.php?id=<?= $items['id'] ?>" class="btn btn-sm bg-danger-light">
+																</a>
+																<a href="../backend/admin/delete-user.php?id=<?= $items['id'] ?>" class="btn btn-sm bg-danger-light">
 																	<i class="fe fe-trash"></i> Delete
 																</a>
 															</div>

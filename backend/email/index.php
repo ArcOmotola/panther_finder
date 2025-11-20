@@ -20,7 +20,15 @@ function generalEmailSender($subject, $email, $body, $recipient_name)
 
         $mail->SMTPDebug = 0;                                       // Enable verbose debug output
         $mail->isSMTP();                                            // Set mailer to use SMTP
-        // Enable TLS encryption, [ICODE]ssl[/ICODE] also accepted
+        $mail->Host       = '';  // Specify main and backup SMTP servers
+
+        $mail->SMTPAuth   = true;                                   // Enable SMTP authentication
+
+        $mail->Username   = '';                     // SMTP username
+
+        $mail->Password   = '';                               // SMTP password
+
+        $mail->SMTPSecure = 'ssl';                                  // Enable TLS encryption, [ICODE]ssl[/ICODE] also accepted
 
         $mail->Port       = 465;                                    // TCP port to connect to
 
@@ -28,7 +36,7 @@ function generalEmailSender($subject, $email, $body, $recipient_name)
 
         //Recipients
 
-        $mail->setFrom('', 'Path Finder App');
+        $mail->setFrom('info.fostercarereconnect.online', 'Path Finder App');
 
         $mail->addAddress($email, $recipient_name);     // Add a recipient
 

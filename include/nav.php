@@ -15,15 +15,15 @@
                     if ($_SESSION['role'] == 'finder') {
                         echo '<a href="project.php" class="nav-item nav-link">My Reports</a>';
                     } else {
-                        echo '<a href="climant.php" class="nav-item nav-link">My Claims</a>';
+                        echo '<a href="claimant.php" class="nav-item nav-link">My Claims</a>';
                     }
                 ?>
                 <?php }
                 ?>
                 <!-- <a href="#" class="nav-item nav-link">Project</a> -->
                 <a href="#" class="nav-item nav-link">Our Team</a>
-                <a href="#" class="nav-item nav-link">Testimonial</a>
-                <a href="#" class="nav-item nav-link">Contact</a>
+                <a href="testimonial.php" class="nav-item nav-link">Testimonial</a>
+                <a href="contact.php" class="nav-item nav-link">Contact</a>
             </div>
             <?php
             if (isset($_SESSION['last_login_time'])) { ?>
