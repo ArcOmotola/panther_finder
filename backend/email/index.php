@@ -20,13 +20,13 @@ function generalEmailSender($subject, $email, $body, $recipient_name)
 
         $mail->SMTPDebug = 0;                                       // Enable verbose debug output
         $mail->isSMTP();                                            // Set mailer to use SMTP
-        $mail->Host       = '';  // Specify main and backup SMTP servers
+        $mail->Host       = 'mail.fostercarereconnect.online';  // Specify main and backup SMTP servers
 
         $mail->SMTPAuth   = true;                                   // Enable SMTP authentication
 
-        $mail->Username   = '';                     // SMTP username
+        $mail->Username   = 'info@fostercarereconnect.online';                     // SMTP username
 
-        $mail->Password   = '';                               // SMTP password
+        $mail->Password   = 't11Ufc~YBx==';                               // SMTP password
 
         $mail->SMTPSecure = 'ssl';                                  // Enable TLS encryption, [ICODE]ssl[/ICODE] also accepted
 

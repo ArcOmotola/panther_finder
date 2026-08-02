@@ -2,7 +2,7 @@
 
 
 #gemini_api_key
-define('GOOGLE_AI_STUDIO_GEMINI_API_KEY', '');
+define('GOOGLE_AI_STUDIO_GEMINI_API_KEY', 'AIzaSyCs7u4RfkNahQiOCLuiYyMYs6EMN_AcslE');
 define('GOOGLE_AI_STUDIO_GEMINI_MODEL', 'gemini-2.0-flash');
 define('GOOGLE_AI_STUDIO_GEMINI_BASE_URL', 'https://generativelanguage.googleapis.com/v1beta/models/gemini-embedding-001:embedContent');
 

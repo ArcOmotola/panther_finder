@@ -27,16 +27,15 @@ if (isset($_POST['submit'])) {
                 $pick_up = $_POST['pick_up_locations'];
                 $smart_pin = rand(1000, 9999);
                 $admin_comment = $_POST['admin_comment'];
-                $update_match = "UPDATE finder_claimants SET match_status = :match_status, pick_up_locations = :pick_up_locations, smart_pin = :smart_pin, admin_comment = :admin_comment WHERE id = :id";
+                $update_match = "UPDATE finder_claimants SET match_status = :match_status, smart_pin = :smart_pin, admin_comment = :admin_comment WHERE id = :id";
                 $up =  $db->execute($update_match, [
                     'match_status' => $match_status,
-                    'pick_up_locations' => $pick_up,
                     'smart_pin' => $smart_pin,
                     'admin_comment' => $admin_comment,
                     'id' => $match_id
                 ]);
                 //Update Claimant Report
-                $update_claimant = "UPDATE claimant_reports SET status = :status WHERE id = :id";
+                $update_claimant = "UPDATE claimant_reports SET role = :status WHERE id = :id";
                 $up =  $db->execute($update_claimant, ['status' => "delivered", 'id' => $check_match_result['claimant_report_id']]);
 
                 //Update Finder Report

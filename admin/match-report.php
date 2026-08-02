@@ -36,7 +36,7 @@
 					<div class="page-header">
 						<div class="row">
 							<div class="col-sm-12">
-								<h3 class="page-title">Match Items</h3>
+								<h3 class="page-title">Matched Items</h3>
 								<ul class="breadcrumb">
 									<li class="breadcrumb-item active">Lists</li>
 								</ul>
@@ -92,7 +92,7 @@
 																<!-- <a class="btn btn-sm bg-success-light" href="match-edit.php?id=<?= $items['id'] ?>">
 																	<i class="fe fe-pencil"></i> Edit
 																</a> -->
-																<a href="../backend/admin/delete-items.php?id=<?= $items['id'] ?>" class="btn btn-sm bg-danger-light">
+																<a href="../backend/admin/delete-match.php?id=<?= $items['id'] ?>" class="btn btn-sm bg-danger-light">
 																	<i class="fe fe-trash"></i> Delete
 																</a>
 															</div>

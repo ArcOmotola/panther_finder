@@ -71,7 +71,7 @@ if (isset($_POST['submit'])) {
                 'user_id' => $user_id,
                 'title' => $item_name,
                 'description' => $description,
-                'image' => $image_path,
+                'image' => $image_path = "nill",
                 'phone' => $item_phone,
                 'category_id' => $category_id,
                 'color_id' => $color_id,

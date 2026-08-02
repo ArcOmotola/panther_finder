@@ -84,13 +84,19 @@ $result_report = $db->fetch($finder_report, ['id' => $_GET['id']]);
 
                             <form action="backend/clamint-form.php" method="post" enctype="multipart/form-data">
                                 <div class="row g-3">
-                                    <!-- <div class="col-md-6">
+                                    <div class="col-md-6">
                                         <div class="form-floating">
-                                            <select name="category_id" id="category_id" class="form-control">
-                                                <option value="<?= $result_report['category_id'] ?>"><?= $result_report['category_name'] ?></option>
+                                            <select name="pick_up_id" id="pick_up_id" class="form-control" required>
+                                                <option value="" selected>Select a Pick Up Location</option>
+                                                <?php
+                                                foreach ($pickup_locations as $location) {
+                                                    echo '<option value="' . $location['id'] . '">' . $location['name'] . '</option>';
+                                                }
+                                                ?>
+
                                             </select>
                                         </div>
-                                    </div> -->
+                                    </div>
                                     <input type="hidden" name="category_id" value="<?= $result_report['category_id'] ?>">
                                     <div class="col-md-6">
                                         <div class="form-floating">
@@ -101,12 +107,12 @@ $result_report = $db->fetch($finder_report, ['id' => $_GET['id']]);
                                         </div>
                                     </div>
 
-                                    <div class="col-md-6 hidden">
-                                        <div class="form-floating">
-                                            <input type="hidden" class="form-control" id="name" name="item_name" value="<?= $result_report['title']  ?>" placeholder="Enter your Full name" required>
-                                            <!-- <label for="name">Item Name</label> -->
-                                        </div>
-                                    </div>
+                                    <!-- <div class="col-md-6 hidden">
+                                        <div class="form-floating"> -->
+                                    <input type="hidden" class="form-control" id="name" name="item_name" value="<?= $result_report['title']  ?>" placeholder="Enter your Full name" required>
+                                    <!-- <label for="name">Item Name</label> -->
+                                    <!-- </div>
+                                    </div> -->
 
                                     <div class="col-md-6">
                                         <div class="form-floating">
@@ -139,24 +145,12 @@ $result_report = $db->fetch($finder_report, ['id' => $_GET['id']]);
                                         </div>
                                     </div>
 
-                                    <div class="col-md-6">
+                                    <!-- <div class="col-md-6">
                                         <div class="form-floating">
                                             <input type="file" class="form-control" id="image" name="images" accept="image/*" required>
                                         </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-floating">
-                                            <select name="pick_up_id" id="pick_up_id" class="form-control" required>
-                                                <option value="" selected>Select a Pick Up Location</option>
-                                                <?php
-                                                foreach ($pickup_locations as $location) {
-                                                    echo '<option value="' . $location['id'] . '">' . $location['name'] . '</option>';
-                                                }
-                                                ?>
+                                    </div> -->
 
-                                            </select>
-                                        </div>
-                                    </div>
 
                                     <input type="hidden" name="finder_id" value="<?= $_GET['id'] ?>">
                                     <div class="col-12">

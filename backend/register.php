@@ -49,7 +49,7 @@ if (isset($_POST['submit'])) {
 
                     $to = $email;
                     // $verificationToken = bin2hex(random_bytes(16));
-                    $subject = "Welcome to Foster Care Reconnect!";
+                    $subject = "Welcome to Panther finder!";
                     // $verificationLink = $_SERVER['HTTP_ORIGIN'] . "/verify-email.php?token=" . $verificationToken;
                     $body = "
                     <p>Hello $full_name,</p>
@@ -60,9 +60,9 @@ if (isset($_POST['submit'])) {
                     <p>Panther Finder Team</p>
                     ";
                     if (generalEmailSender($subject, $to, $body, $full_name) == "success") {
-                          $success_message = "Registration successful and email sent";
-                    }else{
-                        $success_message = "Registration successful and email could not be sent";
+                        $success_message = "Registration successful and email sent";
+                    } else {
+                        $success_message = "Registration successful";
                     }
                     header("Location: ../login.php?success=" . $success_message);
                 }

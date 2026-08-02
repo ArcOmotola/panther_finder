@@ -63,7 +63,9 @@ $result_projects = $db->fetchAll($projects, ['user_id' => $user]);
                                         <p class="text-primary fw-medium mb-2"><?= $project['title'] ?></p>
                                         <h5 class="lh-base mb-0"><?= $project['description'] ?></a>
                                         </h5>
-                                        <a type="button" class="btn btn-warning" href="finder-form.php?id=<?= $project['id'] ?>"><?= $project['status'] ?></a>
+                                        <a type="button" class="btn <?= $project['status'] == "delivered" ? "btn-success" : "btn-warning" ?> btn-lg" href="finder-form.php?id=<?= $project['id'] ?>">
+                                            <?= $project['status'] == "delivered" ? "Claimed" : $project['status'] ?>
+                                        </a>
                                     </div>
                                 </div>
                             </div>

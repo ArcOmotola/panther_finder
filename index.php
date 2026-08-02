@@ -120,7 +120,8 @@ if (empty($result_categories)) {
 $finder_reports = "SELECT categories.name as category_name, colors.name as color_name, users.name as user_name, finder_reports.* FROM finder_reports 
 	JOIN categories ON categories.id = finder_reports.category_id
 	JOIN colors ON colors.id = finder_reports.color_id
-	JOIN users ON users.id = finder_reports.user_id order by created_at desc";
+	JOIN users ON users.id = finder_reports.user_id
+    WHERE finder_reports.status = 'pending' order by created_at desc";
 $result_finder_reports = $db->fetchAll($finder_reports);
 
 //Search result
@@ -230,6 +231,7 @@ if (isset($_GET['search'])) {
                                         </a>
                                         <!-- <i class="fa fa-3x fa-mail-bulk text-primary mb-4"></i> -->
                                         <h5 class="mb-3"><?= $result['title']  ?></h5>
+                                        <a href=" claimant-form.php?id=<?= $result['id'] ?>" class=" btn btn-secondary py-sm-3 px-sm-5 rounded-pill me-3">View details</a>
                                     </div>
                                 </div>
                             <?php }  ?>
@@ -350,7 +352,7 @@ if (isset($_GET['search'])) {
                             <div class="text-center border-bottom p-4">
                                 <img class="img-fluid rounded-circle mb-4" src="assets/img/salv.jpeg" alt="">
                                 <h5>Silva .S</h5>
-                                <span>Delivery Man</span>
+                                <span>Locker Admin</span>
                             </div>
                             <div class="d-flex justify-content-center p-4">
                                 <a class="btn btn-square mx-1" href=""><i class="fab fa-facebook-f"></i></a>
@@ -391,7 +393,90 @@ if (isset($_GET['search'])) {
             </div>
         </div>
         <!-- Team End -->
-
+        <!-- Service Start -->
+        <div class="container-xxl py-5">
+            <div class="container py-5 px-lg-5">
+                <div class="wow fadeInUp" data-wow-delay="0.1s">
+                    <h1 class="text-center mb-5">🔎 Finder Flow (You found an item)</h1>
+                </div>
+                <div class="row g-4">
+                    <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                        <div class="service-item d-flex flex-column text-center rounded">
+                            <div class="service-icon flex-shrink-0">
+                                <i class="fa fa-search fa-2x"></i>
+                            </div>
+                            <h5 class="mb-3">SIGN UP / LOG IN</h5>
+                            <p class="m-0">Create an account or log in to get started.</p>
+                            <a class="btn btn-square" href=""><i class="fa fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
+                        <div class="service-item d-flex flex-column text-center rounded">
+                            <div class="service-icon flex-shrink-0">
+                                <i class="fa fa-laptop-code fa-2x"></i>
+                            </div>
+                            <h5 class="mb-3">SUBMIT LOST ITEM</h5>
+                            <p class="m-0">Complete the *Lost Item Form* with key details and photos.</p>
+                            <a class="btn btn-square" href=""><i class="fa fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
+                        <div class="service-item d-flex flex-column text-center rounded">
+                            <div class="service-icon flex-shrink-0">
+                                <i class="fab fa-facebook-f fa-2x"></i>
+                            </div>
+                            <h5 class="mb-3">RECEIVE SUBMISSION UPDATE</h5>
+                            <p class="m-0">Get notified as claims come in and when the admin updates the case.
+                                If a claim is approved after review, the *Finder* sees the final status.</p>
+                            <a class="btn btn-square" href=""><i class="fa fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Service End -->
+        <!-- Service Start -->
+        <div class="container-xxl py-5">
+            <div class="container py-5 px-lg-5">
+                <div class="wow fadeInUp" data-wow-delay="0.1s">
+                    <h1 class="text-center mb-5"> Claimant Flow (You lost an item)</h1>
+                </div>
+                <div class="row g-4">
+                    <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                        <div class="service-item d-flex flex-column text-center rounded">
+                            <div class="service-icon flex-shrink-0">
+                                <i class="fa fa-search fa-2x"></i>
+                            </div>
+                            <h5 class="mb-3">SIGN UP / LOG IN</h5>
+                            <p class="m-0">Create an account or log in to continue.</p>
+                            <a class="btn btn-square" href=""><i class="fa fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
+                        <div class="service-item d-flex flex-column text-center rounded">
+                            <div class="service-icon flex-shrink-0">
+                                <i class="fa fa-laptop-code fa-2x"></i>
+                            </div>
+                            <h5 class="mb-3">SUBMIT LOST ITEM</h5>
+                            <p class="m-0">Complete the *Lost Item Form* with key details and photos.</p>
+                            <a class="btn btn-square" href=""><i class="fa fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
+                        <div class="service-item d-flex flex-column text-center rounded">
+                            <div class="service-icon flex-shrink-0">
+                                <i class="fab fa-facebook-f fa-2x"></i>
+                            </div>
+                            <h5 class="mb-3">RECEIVE SUBMISSION UPDATE</h5>
+                            <p class="m-0">Get notified as claims come in and when the admin updates the case.
+                                If a claim is approved after review, the *Finder* sees the final status.</p>
+                            <a class="btn btn-square" href=""><i class="fa fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Service End -->
 
         <!-- Footer Start -->
         <?php include 'include/footer.php'; ?>

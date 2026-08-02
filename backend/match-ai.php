@@ -1,7 +1,7 @@
 <?php
 
 // Use the Flash model for speed and low cost
-define('GOOGLE_AI_STUDIO_GEMINI_API_KEY', '');
+define('GOOGLE_AI_STUDIO_GEMINI_API_KEY', 'AIzaSyCs7u4RfkNahQiOCLuiYyMYs6EMN_AcslE');
 define('GOOGLE_AI_STUDIO_GEMINI_BASE_URL', 'https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent');
 
 /**
