@@ -1,14 +1,16 @@
 <?php
 
 // Use the Flash model for speed and low cost
-define('GOOGLE_AI_STUDIO_GEMINI_API_KEY', 'AIzaSyCs7u4RfkNahQiOCLuiYyMYs6EMN_AcslE');
+define('GOOGLE_AI_STUDIO_GEMINI_API_KEY', '');
 define('GOOGLE_AI_STUDIO_GEMINI_BASE_URL', 'https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent');
 
 /**
  * Calculates a similarity score using Generative AI Reasoning.
- * * @param string $itemA The first item description.
- * @param string $itemB The second item description.
- * @return int The percentage score (0-100).
+ *
+ * * @param string $itemA The first item description
+ * @param string $itemB the second item description
+ *
+ * @return int the percentage score (0-100)
  */
 function getSmartSimilarityScore($itemA, $itemB)
 {
@@ -32,30 +34,30 @@ function getSmartSimilarityScore($itemA, $itemB)
         'contents' => [
             [
                 'parts' => [
-                    ['text' => $prompt]
-                ]
-            ]
+                    ['text' => $prompt],
+                ],
+            ],
         ],
         'generationConfig' => [
             'temperature' => 0.0, // 0.0 makes the AI deterministic/strict
-            'maxOutputTokens' => 10
-        ]
+            'maxOutputTokens' => 10,
+        ],
     ]);
 
     $options = [
         'http' => [
-            'header'  => "Content-type: application/json\r\n" .
-                "x-goog-api-key: " . GOOGLE_AI_STUDIO_GEMINI_API_KEY,
-            'method'  => 'POST',
+            'header' => "Content-type: application/json\r\n".
+                'x-goog-api-key: '.GOOGLE_AI_STUDIO_GEMINI_API_KEY,
+            'method' => 'POST',
             'content' => $payload,
-            'ignore_errors' => true
-        ]
+            'ignore_errors' => true,
+        ],
     ];
 
-    $context  = stream_context_create($options);
+    $context = stream_context_create($options);
     $result = @file_get_contents(GOOGLE_AI_STUDIO_GEMINI_BASE_URL, false, $context);
 
-    if ($result === FALSE) {
+    if ($result === false) {
         // Handle network error
         return 0;
     }
@@ -65,6 +67,7 @@ function getSmartSimilarityScore($itemA, $itemB)
     // Extract the text result
     if (isset($data['candidates'][0]['content']['parts'][0]['text'])) {
         $rawScore = trim($data['candidates'][0]['content']['parts'][0]['text']);
+
         // Ensure we only get numbers (removes any accidental text)
         return (int) filter_var($rawScore, FILTER_SANITIZE_NUMBER_INT);
     }
@@ -75,10 +78,10 @@ function getSmartSimilarityScore($itemA, $itemB)
 // --- TEST CASES (Based on your requests) ---
 
 $tests = [
-    ["A black gucci bag", "A black gucci bag."], // Expect ~100
-    ["A black gucci bag", "A yellow gucci bag"], // Expect ~0-10 (Generative knows colors don't match)
-    ["A black gucci bag", "blue pouch"],         // Expect ~20-40
-    ["white earpiece", "some stuff we saw"]      // Expect ~0-10
+    ['A black gucci bag', 'A black gucci bag.'], // Expect ~100
+    ['A black gucci bag', 'A yellow gucci bag'], // Expect ~0-10 (Generative knows colors don't match)
+    ['A black gucci bag', 'blue pouch'],         // Expect ~20-40
+    ['white earpiece', 'some stuff we saw'],      // Expect ~0-10
 ];
 
 echo "--- Smart Similarity Results ---\n";
