@@ -1,11 +1,7 @@
 <?php
 
-
-
-use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
-//
-
+use PHPMailer\PHPMailer\PHPMailer;
 
 function generalEmailSender($subject, $email, $body, $recipient_name)
 {
@@ -15,26 +11,23 @@ function generalEmailSender($subject, $email, $body, $recipient_name)
     // Instantiation and passing [ICODE]true[/ICODE] enables exceptions
     $mail = new PHPMailer(true);
     try {
-
-        //Server settings
+        // Server settings
 
         $mail->SMTPDebug = 0;                                       // Enable verbose debug output
         $mail->isSMTP();                                            // Set mailer to use SMTP
-        $mail->Host       = 'mail.fostercarereconnect.online';  // Specify main and backup SMTP servers
+        $mail->Host = '';  // Specify main and backup SMTP servers
 
-        $mail->SMTPAuth   = true;                                   // Enable SMTP authentication
+        $mail->SMTPAuth = true;                                   // Enable SMTP authentication
 
-        $mail->Username   = 'info@fostercarereconnect.online';                     // SMTP username
+        $mail->Username = '';                     // SMTP username
 
-        $mail->Password   = 't11Ufc~YBx==';                               // SMTP password
+        $mail->Password = '';                               // SMTP password
 
         $mail->SMTPSecure = 'ssl';                                  // Enable TLS encryption, [ICODE]ssl[/ICODE] also accepted
 
-        $mail->Port       = 465;                                    // TCP port to connect to
+        $mail->Port = 465;                                    // TCP port to connect to
 
-
-
-        //Recipients
+        // Recipients
 
         $mail->setFrom('info.fostercarereconnect.online', 'Path Finder App');
 
@@ -44,7 +37,7 @@ function generalEmailSender($subject, $email, $body, $recipient_name)
 
         $mail->Subject = $subject;
 
-        $mail->Body    = '<!DOCTYPE html>
+        $mail->Body = '<!DOCTYPE html>
 
 <html lang="en">
 
@@ -115,9 +108,9 @@ function generalEmailSender($subject, $email, $body, $recipient_name)
         <div class="header">
             <img src="../assets/img/logo.png" alt="panther Finder Logo">
         </div>
-        <div class="content">' .
+        <div class="content">'.
             $body
-            . '
+            .'
             <p>Best regards,<br>The Panther Finder</p>
         </div>
         <div class="footer">
@@ -130,6 +123,7 @@ function generalEmailSender($subject, $email, $body, $recipient_name)
 ';
         $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
         $mail->send();
+
         return 'success';
         // Log::info("Email sent Successfully");
     } catch (Exception $e) {
